@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23862987DCB99BFD7060A0A0 /* Pods_SearchBarTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03656667F28CFB4A761C6C01 /* Pods_SearchBarTests.framework */; };
+		3E0CEB7722CF33DC004DBE90 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CEB7622CF33DC004DBE90 /* Define.swift */; };
 		3EE6DB1F22CDD635005700BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6DB1E22CDD635005700BD /* AppDelegate.swift */; };
 		3EE6DB2122CDD635005700BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6DB2022CDD635005700BD /* ViewController.swift */; };
 		3EE6DB2422CDD635005700BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EE6DB2222CDD635005700BD /* Main.storyboard */; };
@@ -14,6 +16,8 @@
 		3EE6DB2922CDD636005700BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EE6DB2722CDD636005700BD /* LaunchScreen.storyboard */; };
 		3EE6DB3422CDD636005700BD /* SearchBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6DB3322CDD636005700BD /* SearchBarTests.swift */; };
 		3EE6DB3F22CDD636005700BD /* SearchBarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6DB3E22CDD636005700BD /* SearchBarUITests.swift */; };
+		762ACB464AD66DA22A5EFF88 /* Pods_SearchBarUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F23BEB4F9E52CDB4C61256C /* Pods_SearchBarUITests.framework */; };
+		9E5744DBAC568C18B5D5A1C3 /* Pods_SearchBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7469F6B02C7267E29C2A3F /* Pods_SearchBar.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03656667F28CFB4A761C6C01 /* Pods_SearchBarTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchBarTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2774DCC539731E91252E6174 /* Pods-SearchBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchBar/Pods-SearchBar.debug.xcconfig"; sourceTree = "<group>"; };
+		3E0CEB7622CF33DC004DBE90 /* Define.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
 		3EE6DB1B22CDD635005700BD /* SearchBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE6DB1E22CDD635005700BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3EE6DB2022CDD635005700BD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +54,13 @@
 		3EE6DB3A22CDD636005700BD /* SearchBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE6DB3E22CDD636005700BD /* SearchBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarUITests.swift; sourceTree = "<group>"; };
 		3EE6DB4022CDD636005700BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		405B228FABE607867EF6E065 /* Pods-SearchBarTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchBarTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchBarTests/Pods-SearchBarTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5F23BEB4F9E52CDB4C61256C /* Pods_SearchBarUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchBarUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94C28F3F85BE7E940E903EB8 /* Pods-SearchBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SearchBar/Pods-SearchBar.release.xcconfig"; sourceTree = "<group>"; };
+		954261D6204C8637730F3D32 /* Pods-SearchBarUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchBarUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SearchBarUITests/Pods-SearchBarUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D6048ACA88743FE775B2CDD7 /* Pods-SearchBarTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchBarTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SearchBarTests/Pods-SearchBarTests.release.xcconfig"; sourceTree = "<group>"; };
+		DC7469F6B02C7267E29C2A3F /* Pods_SearchBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEC32DC83D645EA5A4C61019 /* Pods-SearchBarUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchBarUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchBarUITests/Pods-SearchBarUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E5744DBAC568C18B5D5A1C3 /* Pods_SearchBar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23862987DCB99BFD7060A0A0 /* Pods_SearchBarTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +84,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				762ACB464AD66DA22A5EFF88 /* Pods_SearchBarUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06F5FDED14939656C2907318 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2774DCC539731E91252E6174 /* Pods-SearchBar.debug.xcconfig */,
+				94C28F3F85BE7E940E903EB8 /* Pods-SearchBar.release.xcconfig */,
+				405B228FABE607867EF6E065 /* Pods-SearchBarTests.debug.xcconfig */,
+				D6048ACA88743FE775B2CDD7 /* Pods-SearchBarTests.release.xcconfig */,
+				EEC32DC83D645EA5A4C61019 /* Pods-SearchBarUITests.debug.xcconfig */,
+				954261D6204C8637730F3D32 /* Pods-SearchBarUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3E0CEB7822CF33F1004DBE90 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				3E0CEB7622CF33DC004DBE90 /* Define.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		3EE6DB1222CDD635005700BD = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +119,8 @@
 				3EE6DB3222CDD636005700BD /* SearchBarTests */,
 				3EE6DB3D22CDD636005700BD /* SearchBarUITests */,
 				3EE6DB1C22CDD635005700BD /* Products */,
+				06F5FDED14939656C2907318 /* Pods */,
+				B08782D8DF2C4821D8C98B23 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +137,7 @@
 		3EE6DB1D22CDD635005700BD /* SearchBar */ = {
 			isa = PBXGroup;
 			children = (
+				3E0CEB7822CF33F1004DBE90 /* Common */,
 				3EE6DB1E22CDD635005700BD /* AppDelegate.swift */,
 				3EE6DB2022CDD635005700BD /* ViewController.swift */,
 				3EE6DB2222CDD635005700BD /* Main.storyboard */,
@@ -125,6 +166,16 @@
 			path = SearchBarUITests;
 			sourceTree = "<group>";
 		};
+		B08782D8DF2C4821D8C98B23 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DC7469F6B02C7267E29C2A3F /* Pods_SearchBar.framework */,
+				03656667F28CFB4A761C6C01 /* Pods_SearchBarTests.framework */,
+				5F23BEB4F9E52CDB4C61256C /* Pods_SearchBarUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +183,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3EE6DB4322CDD636005700BD /* Build configuration list for PBXNativeTarget "SearchBar" */;
 			buildPhases = (
+				54CF0360394106257AF54672 /* [CP] Check Pods Manifest.lock */,
 				3EE6DB1722CDD635005700BD /* Sources */,
 				3EE6DB1822CDD635005700BD /* Frameworks */,
 				3EE6DB1922CDD635005700BD /* Resources */,
+				63DAAF78EF33D201B2CE5352 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -149,6 +202,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3EE6DB4622CDD636005700BD /* Build configuration list for PBXNativeTarget "SearchBarTests" */;
 			buildPhases = (
+				303CA672660EF8B4BBC6A231 /* [CP] Check Pods Manifest.lock */,
 				3EE6DB2B22CDD636005700BD /* Sources */,
 				3EE6DB2C22CDD636005700BD /* Frameworks */,
 				3EE6DB2D22CDD636005700BD /* Resources */,
@@ -167,6 +221,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3EE6DB4922CDD636005700BD /* Build configuration list for PBXNativeTarget "SearchBarUITests" */;
 			buildPhases = (
+				95C23B784140101720E4718B /* [CP] Check Pods Manifest.lock */,
 				3EE6DB3622CDD636005700BD /* Sources */,
 				3EE6DB3722CDD636005700BD /* Frameworks */,
 				3EE6DB3822CDD636005700BD /* Resources */,
@@ -251,12 +306,94 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		303CA672660EF8B4BBC6A231 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SearchBarTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		54CF0360394106257AF54672 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SearchBar-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63DAAF78EF33D201B2CE5352 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SearchBar/Pods-SearchBar-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SearchBar/Pods-SearchBar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95C23B784140101720E4718B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SearchBarUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3EE6DB1722CDD635005700BD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				3EE6DB2122CDD635005700BD /* ViewController.swift in Sources */,
+				3E0CEB7722CF33DC004DBE90 /* Define.swift in Sources */,
 				3EE6DB1F22CDD635005700BD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,6 +567,7 @@
 		};
 		3EE6DB4422CDD636005700BD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2774DCC539731E91252E6174 /* Pods-SearchBar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -448,6 +586,7 @@
 		};
 		3EE6DB4522CDD636005700BD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94C28F3F85BE7E940E903EB8 /* Pods-SearchBar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -466,6 +605,7 @@
 		};
 		3EE6DB4722CDD636005700BD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 405B228FABE607867EF6E065 /* Pods-SearchBarTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -487,6 +627,7 @@
 		};
 		3EE6DB4822CDD636005700BD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6048ACA88743FE775B2CDD7 /* Pods-SearchBarTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -508,6 +649,7 @@
 		};
 		3EE6DB4A22CDD636005700BD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EEC32DC83D645EA5A4C61019 /* Pods-SearchBarUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -528,6 +670,7 @@
 		};
 		3EE6DB4B22CDD636005700BD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 954261D6204C8637730F3D32 /* Pods-SearchBarUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
