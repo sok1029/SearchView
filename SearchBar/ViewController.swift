@@ -13,12 +13,20 @@ import RealmSwift
 
 class SearchedThing: Object{
     @objc dynamic var word = blankString
+    @objc dynamic var time: Int = 0
+
+    override static func primaryKey() -> String? {
+        return "word"
+    }
 }
 
 class ViewController: UIViewController {
     let disposeBag = DisposeBag()
+    let maximumSearchedLoadNum = 5
     var searchedWords: [String]?
     
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchedWordTableView: UITableView!
     @IBOutlet weak var searchBarTextField: UITextField!
     
     override func viewDidLoad() {
@@ -49,17 +57,16 @@ class ViewController: UIViewController {
     }
     
     private func loadSearchedWords(input: String) {
-        let maximumLoad = 5
         self.searchedWords = nil
         //when blankstring in textfield , show 5 searched words
         if input.trimmingCharacters(in: .whitespaces) == blankString{
-            let searchedThings = try! Realm().objects(SearchedThing.self)
+            let searchedThings = try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
             if searchedThings.count > 0{
                 var searched5Words = [String]()
-                for searchedThing in searchedThings.reversed(){ //lately
+                for searchedThing in searchedThings{
                     let word = searchedThing.word
                     searched5Words.append(word)
-                    if searched5Words.count == maximumLoad{ break}
+                    if searched5Words.count == maximumSearchedLoadNum{ break}
                 }
                 self.searchedWords = searched5Words
             }
@@ -71,10 +78,13 @@ class ViewController: UIViewController {
     }
     
     private func showSearchHistory(){
-        if let searchedWords = self.searchedWords{
-            for word in searchedWords{
-                print(word)
-            }
+        if let searchedWords = self.searchedWords, searchedWords.count > 0{
+            searchedWordTableView.reloadData()
+            searchedWordTableView.isHidden = false
+            tableViewHeightConstraint.constant = rowHeight * CGFloat( searchedWords.count)
+        }
+        else{
+            searchedWordTableView.isHidden = true
         }
     }
     
@@ -85,18 +95,53 @@ class ViewController: UIViewController {
     }
 
     @IBAction func btnTouched(_ sender: Any) {
-       saveSearchedWord()
+        let word = searchBarTextField.text
+        saveSearchedWord(word)
+        doSomethigByWord(word)
     }
     
-    private func saveSearchedWord(){
-        if let text = searchBarTextField.text, text.count > 0{
-            let searchedThing = SearchedThing(value: ["word" : searchBarTextField.text])
+    private func saveSearchedWord(_ word: String?){
+        print("saveSearchedWord")
+        if let text = word, text.count > 0{
+            let searchedThing = SearchedThing(value: ["word" : text, "time" : Int(Util.getCurrentTime(format:"yyyyMMddHHmmss"))!])
             
             let realm = try! Realm()
             try! realm.write {
-                realm.add(searchedThing)
+                realm.add(searchedThing,update: true)
             }
         }
+    }
+    
+    private func doSomethigByWord(_ word: String?){
+        print("doSomethigByWord")
+        searchedWordTableView.isHidden = true
+    }
+
+}
+
+extension ViewController: UITableViewDelegate,UITableViewDataSource{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return rowHeight
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let searchedWords = self.searchedWords{
+            return searchedWords.count
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseCellIdentifier, for: indexPath) as! SearchedTableviewCell
+        cell.searchedWordLabel.text = searchedWords![indexPath.row]
+        return cell
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let word = searchedWords![indexPath.row]
+        searchBarTextField.text = word
+        saveSearchedWord(word)
+        doSomethigByWord(word)
     }
 }
 
