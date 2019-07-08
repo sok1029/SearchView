@@ -90,8 +90,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="preloadWordTableView" destination="rym-X7-dhL" id="Y8A-nY-Gc8"/>
                         <outlet property="searchBarTextField" destination="Ce9-jP-kLn" id="cND-7S-Gqm"/>
-                        <outlet property="searchedWordTableView" destination="rym-X7-dhL" id="aU7-8o-Ziz"/>
                         <outlet property="tableViewHeightConstraint" destination="fMK-7F-LVL" id="klq-bp-gcp"/>
                     </connections>
                 </viewController>

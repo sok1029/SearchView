@@ -24,9 +24,10 @@ class ViewController: UIViewController {
     let disposeBag = DisposeBag()
     let maximumSearchedLoadNum = 5
     var searchedWords: [String]?
-    
+    var preloadWords: [String]?
+
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var searchedWordTableView: UITableView!
+    @IBOutlet weak var preloadWordTableView: UITableView!
     @IBOutlet weak var searchBarTextField: UITextField!
     
     override func viewDidLoad() {
@@ -40,10 +41,17 @@ class ViewController: UIViewController {
     }
     
     private func setSearchBarEventHandler(){
+        searchBarTextField.rx.controlEvent([.editingDidBegin])
+            .withLatestFrom(searchBarTextField.rx.text.orEmpty)
+            .subscribe(onNext: { [unowned self]  (text) in
+                self.loadSearchedWords()
+            })
+            .disposed(by: disposeBag)
+        
         searchBarTextField.rx.controlEvent([.editingDidBegin,.editingChanged])
             .withLatestFrom(searchBarTextField.rx.text.orEmpty)
             .subscribe(onNext: { [unowned self]  (text) in
-                self.loadSearchedWords(input: text)
+                self.getPreloadWords(input: text)
                 self.showSearchHistory()
             })
             .disposed(by: disposeBag)
@@ -56,35 +64,28 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func loadSearchedWords(input: String) {
-        self.searchedWords = nil
-        //when blankstring in textfield , show 5 searched words
-        if input.trimmingCharacters(in: .whitespaces) == blankString{
+    private func loadSearchedWords() {
+        if self.searchedWords == nil{
             let searchedThings = try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
             if searchedThings.count > 0{
-                var searched5Words = [String]()
+                var searchedWords = [String]()
                 for searchedThing in searchedThings{
                     let word = searchedThing.word
-                    searched5Words.append(word)
-                    if searched5Words.count == maximumSearchedLoadNum{ break}
+                    searchedWords.append(word)
                 }
-                self.searchedWords = searched5Words
+                self.searchedWords = searchedWords
             }
-        }
-        //when inputstring in textfield, show predicate word with input
-        else{
-            
         }
     }
     
     private func showSearchHistory(){
-        if let searchedWords = self.searchedWords, searchedWords.count > 0{
-            searchedWordTableView.reloadData()
-            searchedWordTableView.isHidden = false
-            tableViewHeightConstraint.constant = rowHeight * CGFloat( searchedWords.count)
+        if let preloadWords = self.preloadWords , preloadWords.count > 0{
+            preloadWordTableView.reloadData()
+            preloadWordTableView.isHidden = false
+            tableViewHeightConstraint.constant = rowHeight * CGFloat( preloadWords.count)
         }
         else{
-            searchedWordTableView.isHidden = true
+            preloadWordTableView.isHidden = true
         }
     }
     
@@ -93,6 +94,27 @@ class ViewController: UIViewController {
             
         }
     }
+    
+    private func getPreloadWords(input: String) {
+        self.preloadWords = nil
+        var preloadWords = [String]()
+        
+        //when blankstring in textfield , show 5 searched words
+        if input.trimmingCharacters(in: .whitespaces) == blankString{
+            if let searchedWords = self.searchedWords{
+                for searchedWord in searchedWords{
+                    preloadWords.append(searchedWord)
+                    if (preloadWords.count == maximumSearchedLoadNum){ break}
+                }
+            }
+        }
+            //when inputstring in textfield, show predicate 2 searched word + 3 frequently word
+        else{
+            
+        }
+        self.preloadWords = preloadWords
+    }
+   
 
     @IBAction func btnTouched(_ sender: Any) {
         let word = searchBarTextField.text
@@ -114,7 +136,7 @@ class ViewController: UIViewController {
     
     private func doSomethigByWord(_ word: String?){
         print("doSomethigByWord")
-        searchedWordTableView.isHidden = true
+        preloadWordTableView.isHidden = true
     }
 
 }
