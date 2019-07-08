@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SearchBar/ViewController.swift"
-            timestampString = "584259327.147123"
+            timestampString = "584270127.650692"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "saveSearchedWord(_:)"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "addSearchedWord(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SearchBar/ViewController.swift"
-            timestampString = "584260172.345639"
+            timestampString = "584270127.651458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "loadSearchedWords()"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "addSearchedWord(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
