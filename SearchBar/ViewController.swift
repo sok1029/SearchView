@@ -23,7 +23,7 @@ class SearchedThing: Object{
 class ViewController: UIViewController {
     let disposeBag = DisposeBag()
     let maximumSearchedLoadNum = 5
-    var searchedWords: [String]?
+    lazy var searchedWords =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
 //    var searchedWords = Variable<[String]>([])
     var preloadWords: [String]?
 
@@ -39,26 +39,10 @@ class ViewController: UIViewController {
 
     func configure(){
         setSearchBarEventHandler()
-//        setPreloadDatabase()
     }
-    
-//    private func subscribeSearchedWords(){
-//        preloadWords.asObservable().subscribe { (texts) in
-//            //save to DB
-//            texts
-//        }
-//    }
-//    
+
     private func setSearchBarEventHandler(){
-        searchBarTextField.rx.controlEvent([.editingDidBegin])
-            .withLatestFrom(searchBarTextField.rx.text.orEmpty)
-            .subscribe(onNext: { [unowned self]  (text) in
-                self.loadSearchedWords()
-                self.showSearchedHistory(input: text)
-            })
-            .disposed(by: disposeBag)
-        
-        searchBarTextField.rx.controlEvent([.editingChanged])
+        searchBarTextField.rx.controlEvent([.editingDidBegin,.editingChanged])
             .withLatestFrom(searchBarTextField.rx.text.orEmpty)
             .subscribe(onNext: { [unowned self]  (text) in
                 self.showSearchedHistory(input: text)
@@ -71,20 +55,6 @@ class ViewController: UIViewController {
                 self.hideSearchHistory()
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func loadSearchedWords() {
-        if self.searchedWords == nil{
-            let searchedThings = try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
-            if searchedThings.count > 0{
-                var searchedWords = [String]()
-                for searchedThing in searchedThings{
-                    let word = searchedThing.word
-                    searchedWords.append(word)
-                }
-                self.searchedWords = searchedWords
-            }
-        }
     }
     
     private func showSearchedHistory(input: String){
@@ -101,21 +71,19 @@ class ViewController: UIViewController {
     }
     
     private func hideSearchHistory(){
-        if let _ = self.searchedWords{
-            
-        }
+//        if let _ = self.searchedWords{
+//
+//        }
     }
     
     private func getPreloadWords(input: String) {
         var preloadWords = [String]()
         //when blankstring in textfield , show 5 searched words
         if input.trimmingCharacters(in: .whitespaces) == blankString{
-            if let searchedWords = self.searchedWords{
                 for searchedWord in searchedWords{
-                    preloadWords.append(searchedWord)
+                    preloadWords.append(searchedWord.word)
                     if (preloadWords.count == maximumSearchedLoadNum){ break}
                 }
-            }
         }
         //when inputstring in textfield, show predicate 2 searched word + 3 frequently word
         else{
@@ -140,23 +108,24 @@ class ViewController: UIViewController {
                 realm.add(searchedThing,update: true)
             }
             var fromIndex = 0
-            for searchedWord in searchedWords!{
-                if searchedWord == word{
+            for searchedWord in searchedWords{
+                if searchedWord.word == word{
                     break
                 }
                 fromIndex += 1
             }
-            searchedWords!.moveIndex(from: fromIndex, to: 0)
         }
+//        printVarsStatus()
     }
     
     private func removeSearchedWord(_ word: String){
         print("removeSearchedWord")
         let realm = try! Realm()
-        let searchedThings = realm.objects(SearchedThing.self).filter("word = \(word)")
+        let searchedThings = realm.objects(SearchedThing.self).filter("word = '\(word)'")
         try! realm.write {
-            realm.delete(searchedThings[0])
+            realm.delete(searchedThings)
         }
+//        printVarsStatus()
     }
     
     private func doSomethigByWord(_ word: String?){
@@ -172,24 +141,27 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let searchedWords = self.searchedWords{
-            return searchedWords.count
-        }
-        return 0
+        return searchedWords.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseCellIdentifier, for: indexPath) as! SearchedTableviewCell
-        cell.searchedWordLabel.text = searchedWords![indexPath.row]
+        cell.searchedWordLabel.text = searchedWords[indexPath.row].word
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let word = searchedWords![indexPath.row]
+        let word = searchedWords[indexPath.row].word
         searchBarTextField.text = word
         addSearchedWord(word)
         doSomethigByWord(word)
     }
+    
+//    func printVarsStatus(){
+//        for searched in searchedWords{
+//            print(searched.word)
+//        }
+//    }
 }
 
