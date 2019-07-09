@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,45 +15,45 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SearchBar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rg1-K6-oLa">
-                                <rect key="frame" x="312.5" y="66" width="46" height="30"/>
+                                <rect key="frame" x="266" y="66" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="btnTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bvR-7x-1LS"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ce9-jP-kLn">
-                                <rect key="frame" x="62.5" y="66" width="250" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="6pX-7N-NYU"/>
-                                </constraints>
+                                <rect key="frame" x="64" y="66" width="192" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rym-X7-dhL">
-                                <rect key="frame" x="62.5" y="96" width="250" height="128"/>
+                                <rect key="frame" x="64" y="96" width="192" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="fMK-7F-LVL"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchedTableviewCell" id="khA-4v-yRE" customClass="SearchedTableviewCell" customModule="SearchBar" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="250" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="192" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="khA-4v-yRE" id="X01-LS-3b8">
-                                            <rect key="frame" x="0.0" y="0.0" width="250" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="192" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2cT-qy-pd4">
-                                                    <rect key="frame" x="220" y="7" width="30" height="30"/>
+                                                    <rect key="frame" x="175" y="7" width="45" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="45" id="b7C-g7-Xyh"/>
+                                                    </constraints>
                                                     <state key="normal" title="Del"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SearchedWord" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6N9-T1-Ccy">
-                                                    <rect key="frame" x="15" y="11.5" width="114" height="21"/>
+                                                    <rect key="frame" x="15" y="11.5" width="150" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -64,9 +64,11 @@
                                                 <constraint firstItem="6N9-T1-Ccy" firstAttribute="leading" secondItem="X01-LS-3b8" secondAttribute="leadingMargin" id="hkA-XS-UxQ"/>
                                                 <constraint firstItem="2cT-qy-pd4" firstAttribute="centerY" secondItem="X01-LS-3b8" secondAttribute="centerY" id="pER-PQ-Y7k"/>
                                                 <constraint firstItem="6N9-T1-Ccy" firstAttribute="centerY" secondItem="X01-LS-3b8" secondAttribute="centerY" id="se3-Rg-tS4"/>
+                                                <constraint firstItem="2cT-qy-pd4" firstAttribute="leading" secondItem="6N9-T1-Ccy" secondAttribute="trailing" constant="10" id="u0Z-id-dAq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="delButton" destination="2cT-qy-pd4" id="tJA-LS-94s"/>
                                             <outlet property="searchedWordLabel" destination="6N9-T1-Ccy" id="nMT-xK-PRW"/>
                                         </connections>
                                     </tableViewCell>
@@ -82,10 +84,11 @@
                             <constraint firstItem="Rg1-K6-oLa" firstAttribute="centerY" secondItem="Ce9-jP-kLn" secondAttribute="centerY" id="48c-Fs-10j"/>
                             <constraint firstItem="rym-X7-dhL" firstAttribute="leading" secondItem="Ce9-jP-kLn" secondAttribute="leading" id="JY8-vU-dmf"/>
                             <constraint firstItem="Ce9-jP-kLn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="46" id="Keu-PT-sw6"/>
+                            <constraint firstItem="Ce9-jP-kLn" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="3:5" id="UBh-HX-WQc"/>
                             <constraint firstItem="Ce9-jP-kLn" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="b0o-ua-gaj"/>
                             <constraint firstItem="rym-X7-dhL" firstAttribute="top" secondItem="Ce9-jP-kLn" secondAttribute="bottom" id="cTF-Fc-pfm"/>
                             <constraint firstItem="rym-X7-dhL" firstAttribute="trailing" secondItem="Ce9-jP-kLn" secondAttribute="trailing" id="h4h-h4-tB3"/>
-                            <constraint firstItem="Rg1-K6-oLa" firstAttribute="leading" secondItem="Ce9-jP-kLn" secondAttribute="trailing" id="rfp-a9-4EC"/>
+                            <constraint firstItem="Rg1-K6-oLa" firstAttribute="leading" secondItem="Ce9-jP-kLn" secondAttribute="trailing" constant="10" id="rfp-a9-4EC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
