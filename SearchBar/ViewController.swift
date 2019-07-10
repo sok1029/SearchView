@@ -23,8 +23,9 @@ class SearchedThing: Object{
 class ViewController: UIViewController {
     let disposeBag = DisposeBag()
     let maximumSearchedLoadNum = 5
+    let searchedWordFontSize: CGFloat = 17.0
+    
     lazy var searchedThings =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
-//    var searchedWords = Variable<[String]>([])
     var preloadWords: [String]?
 
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
@@ -85,6 +86,7 @@ class ViewController: UIViewController {
         if let input = input, input.trimmingCharacters(in: .whitespaces) != blankString{
             let realm = try! Realm()
             let searchedThings = realm.objects(SearchedThing.self).filter("word BEGINSWITH %@", input.lowercased()).sorted(byKeyPath: "time", ascending: false)
+            
             for searchedThing in searchedThings{
                 preloadWords.append(searchedThing.word)
                 if (preloadWords.count == maximumSearchedLoadNum){ break}
@@ -117,15 +119,7 @@ class ViewController: UIViewController {
             try! realm.write {
                 realm.add(searchedThing,update: true)
             }
-            var fromIndex = 0
-            for searchedThing in searchedThings{
-                if searchedThing.word == word{
-                    break
-                }
-                fromIndex += 1
-            }
         }
-//        printVarsStatus()
     }
     
     private func removeSearchedWord(_ word: String){
@@ -135,7 +129,6 @@ class ViewController: UIViewController {
         try! realm.write {
             realm.delete(searchedThings)
         }
-//        printVarsStatus()
     }
     
     private func doSomethigByWord(_ word: String?){
@@ -162,8 +155,15 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
                 self?.removeSearchedWord(cell.searchedWordLabel!.text!)
                     self?.updateSearchedHistory(input: nil)
             }).disposed(by: cell.bag)
+        
         if let preloadWords = self.preloadWords{
-            cell.searchedWordLabel.text = preloadWords[indexPath.row]
+            //bold effect to equal string with textfield
+            let word = NSMutableAttributedString(string: preloadWords[indexPath.row])
+            let range = NSRange(location: 0, length: searchBarTextField.text!.count)
+            let atrribute = [ NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: searchedWordFontSize)]
+            word.addAttributes(atrribute, range: range)
+            
+            cell.searchedWordLabel.attributedText = word
         }
         return cell
     }
@@ -176,11 +176,5 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource{
             doSomethigByWord(word)
         }
     }
-    
-//    func printVarsStatus(){
-//        for searched in searchedWords{
-//            print(searched.word)
-//        }
-//    }
 }
 
