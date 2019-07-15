@@ -28,6 +28,7 @@ class SearchTextFieldView: UIView {
     let searchedWordFontSize: CGFloat = 17.0
     var superViewHeightConstraint: NSLayoutConstraint?
     
+    @IBOutlet weak var runButton: UIButton!
     lazy var searchedThings =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
     var suggestionWords: [String]?
     
@@ -65,6 +66,7 @@ class SearchTextFieldView: UIView {
         //firstHeight define to searchBarHeight
         searchBarHeight = self.bounds.height
         setSearchBarEventHandler()
+        setRunButtonEventHandler()
         setSuggestionListTableView()
         self.addSubviewBySameConstraint(subView: view)
         
@@ -113,6 +115,16 @@ class SearchTextFieldView: UIView {
             .disposed(by: disposeBag)
     }
     
+    private func setRunButtonEventHandler(){
+        runButton.rx.controlEvent([.touchUpInside])
+            .subscribe(onNext: { [unowned self]  in
+                self.doWhenRun()
+                let word = self.searchBarTextField.text
+                self.addSearchedWord(word)
+            })
+            .disposed(by: disposeBag)
+    }
+
     private func setSuggestionListTableView(){
         suggestionListTableView.delegate = self
         suggestionListTableView.dataSource = self
@@ -181,12 +193,6 @@ class SearchTextFieldView: UIView {
         self.suggestionWords = suggestionWords
     }
     
-    @IBAction func btnTouched(_ sender: Any) {
-        let word = searchBarTextField.text
-        addSearchedWord(word)
-        doSomethigByWord(word)
-    }
-    
     private func addSearchedWord(_ word: String?){
         print("addSearchedWord")
         if let text = word, text.count > 0{
@@ -209,9 +215,9 @@ class SearchTextFieldView: UIView {
         }
     }
     
-    private func doSomethigByWord(_ word: String?){
-        print("doSomethigByWord")
-        suggestionListTableView.isHidden = true
+    private func doWhenRun(){
+        print("doWhenRun")
+        hideSearchHistory()
     }
 }
 
@@ -251,10 +257,9 @@ extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let suggestionWords = self.suggestionWords{
             let word = suggestionWords[indexPath.row]
+            doWhenRun()
             searchBarTextField.text = word
-            hideSearchHistory()
             addSearchedWord(word)
-            doSomethigByWord(word)
         }
     }
 }

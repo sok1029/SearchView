@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchTextFieldView" customModule="SearchBar" customModuleProvider="target">
             <connections>
+                <outlet property="runButton" destination="Rls-el-XGb" id="lht-Xc-N23"/>
                 <outlet property="searchBarHeightConstraint" destination="nk4-4U-31c" id="BSD-lX-5wm"/>
                 <outlet property="searchBarTextField" destination="kNB-y0-n2G" id="pfO-Ia-Jh6"/>
                 <outlet property="suggestionListTableView" destination="uZC-69-Mk0" id="46P-td-jwI"/>
@@ -28,10 +29,7 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="Ml8-92-hPM"/>
                     </constraints>
-                    <state key="normal" title="Button"/>
-                    <connections>
-                        <action selector="btnTouched:" destination="-1" eventType="touchUpInside" id="Vu7-pm-69m"/>
-                    </connections>
+                    <state key="normal" title="Run"/>
                 </button>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kNB-y0-n2G">
                     <rect key="frame" x="0.0" y="44" width="370" height="30"/>
