@@ -12,10 +12,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchTextFieldView" customModule="SearchBar" customModuleProvider="target">
             <connections>
-                <outlet property="preloadWordTableView" destination="uZC-69-Mk0" id="KhQ-NY-PXS"/>
-                <outlet property="searchBarHeightConstraint" destination="nk4-4U-31c" id="UJJ-cn-4J5"/>
+                <outlet property="searchBarHeightConstraint" destination="nk4-4U-31c" id="BSD-lX-5wm"/>
                 <outlet property="searchBarTextField" destination="kNB-y0-n2G" id="pfO-Ia-Jh6"/>
-                <outlet property="tableViewHeightConstraint" destination="ud0-Fu-kCb" id="oq3-NE-rU5"/>
+                <outlet property="suggestionListTableView" destination="uZC-69-Mk0" id="46P-td-jwI"/>
+                <outlet property="suggestionListViewHeightConstraint" destination="ud0-Fu-kCb" id="7Tm-e2-IoO"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

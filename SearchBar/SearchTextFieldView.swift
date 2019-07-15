@@ -26,14 +26,14 @@ class SearchTextFieldView: UIView {
     var searchBarHeight: CGFloat = 0
     let maximumSearchedLoadNum = 5
     let searchedWordFontSize: CGFloat = 17.0
-    var viewHeightConstraint: NSLayoutConstraint?
+    var superViewHeightConstraint: NSLayoutConstraint?
     
     lazy var searchedThings =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
-    var preloadWords: [String]?
+    var suggestionWords: [String]?
     
     @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var preloadWordTableView: UITableView!
+    @IBOutlet weak var suggestionListViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var suggestionListTableView: UITableView!
     @IBOutlet weak var searchBarTextField: UITextField!
     
     enum InitType{
@@ -60,19 +60,18 @@ class SearchTextFieldView: UIView {
     private func commonInit() -> Bool{
         //xib connect
         guard let xibName = NSStringFromClass(self.classForCoder).components(separatedBy: ".").last else { return false }
-        
         let view =  Bundle.main.loadNibNamed(xibName, owner: self, options: nil)?.first as! UIView
-        //firstHeight define searchBarHeight
+        
+        //firstHeight define to searchBarHeight
         searchBarHeight = self.bounds.height
         setSearchBarEventHandler()
-        setPreloadTableView()
+        setSuggestionListTableView()
         self.addSubviewBySameConstraint(subView: view)
         
         return true
     }
     
     private func frameTypeInit(){
-
     }
     
     private func coderTypeInit(){
@@ -85,12 +84,14 @@ class SearchTextFieldView: UIView {
             }
         }
         //create new Height Constraint
-        viewHeightConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: searchBarHeight)
-        self.addConstraint(viewHeightConstraint!)
+        superViewHeightConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: searchBarHeight)
+        if let constraint = superViewHeightConstraint{
+            self.addConstraint(constraint)
+        }
     }
     
     override func layoutSubviews() {
-        //set searchBarHeight UI
+        //init searchBarHeight
         if  searchBarHeightConstraint.constant != searchBarHeight{
             searchBarHeightConstraint.constant = searchBarHeight
         }
@@ -112,19 +113,19 @@ class SearchTextFieldView: UIView {
             .disposed(by: disposeBag)
     }
     
-    private func setPreloadTableView(){
-        preloadWordTableView.delegate = self
-        preloadWordTableView.dataSource = self
+    private func setSuggestionListTableView(){
+        suggestionListTableView.delegate = self
+        suggestionListTableView.dataSource = self
         
         let nib = UINib(nibName: reuseCellIdentifier, bundle: nil)
-        preloadWordTableView.register(nib, forCellReuseIdentifier: reuseCellIdentifier)
+        suggestionListTableView.register(nib, forCellReuseIdentifier: reuseCellIdentifier)
     }
     
     private func updateSearchedHistory(input: String?){
-        self.getPreloadWords(input: input)
+        self.getSuggestionWords(input: input)
     
-        if let preloadWords = self.preloadWords , preloadWords.count > 0{
-            showSearchHistory(wordCount: preloadWords.count)
+        if let suggestionWords = self.suggestionWords , suggestionWords.count > 0{
+            showSearchHistory(wordCount: suggestionWords.count)
         }
         else{
             hideSearchHistory()
@@ -132,50 +133,52 @@ class SearchTextFieldView: UIView {
     }
     
     private func showSearchHistory(wordCount: Int){
-        preloadWordTableView.isHidden = false
-        preloadWordTableView.reloadData()
+        suggestionListTableView.isHidden = false
+        suggestionListTableView.reloadData()
+        
         let tableViewHeight = (rowHeight * CGFloat(wordCount))
         let allHeight = searchBarHeight + tableViewHeight
-        tableViewHeightConstraint.constant = tableViewHeight
+        suggestionListViewHeightConstraint.constant = tableViewHeight
+       
         if initType == .frameType{
             self.frame.size.height =  allHeight
         }
         else if initType == .coderType{
-            viewHeightConstraint?.constant = allHeight
+            superViewHeightConstraint?.constant = allHeight
         }
     }
     
     private func hideSearchHistory(){
-        preloadWordTableView.isHidden = true
+        suggestionListTableView.isHidden = true
         if initType == .frameType{
             self.frame.size.height =  searchBarHeight
         }
         else if initType == .coderType{
-            viewHeightConstraint?.constant = searchBarHeight
+            superViewHeightConstraint?.constant = searchBarHeight
         }
     }
     
-    private func getPreloadWords(input: String?) {
-        var preloadWords = [String]()
+    private func getSuggestionWords(input: String?) {
+        var suggestionWords = [String]()
         //when inputstring in textfield, show predicate 2 searched word + 3 frequently word
         if let input = input, input.trimmingCharacters(in: .whitespaces) != blankString{
             let realm = try! Realm()
             let searchedThings = realm.objects(SearchedThing.self).filter("word BEGINSWITH %@", input.lowercased()).sorted(byKeyPath: "time", ascending: false)
             
             for searchedThing in searchedThings{
-                preloadWords.append(searchedThing.word)
-                if (preloadWords.count == maximumSearchedLoadNum){ break}
+                suggestionWords.append(searchedThing.word)
+                if (suggestionWords.count == maximumSearchedLoadNum){ break}
             }
         }
         //when blankstring in textfield , show 5 searched words
         else{
             for searchedThing in searchedThings{
-                preloadWords.append(searchedThing.word)
-                if (preloadWords.count == maximumSearchedLoadNum){ break}
+                suggestionWords.append(searchedThing.word)
+                if (suggestionWords.count == maximumSearchedLoadNum){ break}
             }
         }
         
-        self.preloadWords = preloadWords
+        self.suggestionWords = suggestionWords
     }
     
     @IBAction func btnTouched(_ sender: Any) {
@@ -208,7 +211,7 @@ class SearchTextFieldView: UIView {
     
     private func doSomethigByWord(_ word: String?){
         print("doSomethigByWord")
-        preloadWordTableView.isHidden = true
+        suggestionListTableView.isHidden = true
     }
 }
 
@@ -218,23 +221,26 @@ extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return preloadWords?.count ?? 0
+        return suggestionWords?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseCellIdentifier, for: indexPath) as! SearchedTableviewCell
+        //del button event
         cell.delButton.rx.tap.asDriver()
             .drive(onNext: { [weak self] in
                 // code that has to be handled by view controller
                 self?.removeSearchedWord(cell.searchedWordLabel!.text!)
-                self?.updateSearchedHistory(input: nil)
+                self?.updateSearchedHistory(input:
+                    self?.searchBarTextField.text)
             }).disposed(by: cell.bag)
         
-        if let preloadWords = self.preloadWords{
+        if let suggestionWords = self.suggestionWords{
             //bold effect to equal string with textfield
-            let word = NSMutableAttributedString(string: preloadWords[indexPath.row])
+            let word = NSMutableAttributedString(string: suggestionWords[indexPath.row])
             let range = NSRange(location: 0, length: searchBarTextField.text!.count)
             let atrribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: searchedWordFontSize)]
+            
             word.addAttributes(atrribute, range: range)
             
             cell.searchedWordLabel.attributedText = word
@@ -243,11 +249,11 @@ extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let preloadWords = self.preloadWords{
-            let word = preloadWords[indexPath.row]
+        if let suggestionWords = self.suggestionWords{
+            let word = suggestionWords[indexPath.row]
             searchBarTextField.text = word
-            addSearchedWord(word)
             hideSearchHistory()
+            addSearchedWord(word)
             doSomethigByWord(word)
         }
     }
