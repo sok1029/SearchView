@@ -30,7 +30,7 @@ class SearchTextFieldView: UIView {
     
     @IBOutlet weak var runButton: UIButton!
     lazy var searchedThings =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
-    var suggestionWords: [String]?
+    var suggestionWords: [SearchedThing]?
     
     @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var suggestionListViewHeightConstraint: NSLayoutConstraint!
@@ -98,7 +98,8 @@ class SearchTextFieldView: UIView {
             searchBarHeightConstraint.constant = searchBarHeight
         }
     }
-
+    
+    //MARK: UI Handler
     private func setSearchBarEventHandler(){
         searchBarTextField.rx.controlEvent([.editingDidBegin,.editingChanged])
             .withLatestFrom(searchBarTextField.rx.text.orEmpty)
@@ -171,21 +172,21 @@ class SearchTextFieldView: UIView {
     }
     
     private func getSuggestionWords(input: String?) {
-        var suggestionWords = [String]()
+        var suggestionWords = [SearchedThing]()
         //when inputstring in textfield, show predicate 2 searched word + 3 frequently word
         if let input = input, input.trimmingCharacters(in: .whitespaces) != blankString{
             let realm = try! Realm()
             let searchedThings = realm.objects(SearchedThing.self).filter("word BEGINSWITH %@", input.lowercased()).sorted(byKeyPath: "time", ascending: false)
             
             for searchedThing in searchedThings{
-                suggestionWords.append(searchedThing.word)
+                suggestionWords.append(searchedThing)
                 if (suggestionWords.count == maximumSearchedLoadNum){ break}
             }
         }
         //when blankstring in textfield , show 5 searched words
         else{
             for searchedThing in searchedThings{
-                suggestionWords.append(searchedThing.word)
+                suggestionWords.append(searchedThing)
                 if (suggestionWords.count == maximumSearchedLoadNum){ break}
             }
         }
@@ -243,7 +244,7 @@ extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
         
         if let suggestionWords = self.suggestionWords{
             //bold effect to equal string with textfield
-            let word = NSMutableAttributedString(string: suggestionWords[indexPath.row])
+            let word = NSMutableAttributedString(string: suggestionWords[indexPath.row].word)
             let range = NSRange(location: 0, length: searchBarTextField.text!.count)
             let atrribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: searchedWordFontSize)]
             
@@ -256,7 +257,7 @@ extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let suggestionWords = self.suggestionWords{
-            let word = suggestionWords[indexPath.row]
+            let word = suggestionWords[indexPath.row].word
             doWhenRun()
             searchBarTextField.text = word
             addSearchedWord(word)
