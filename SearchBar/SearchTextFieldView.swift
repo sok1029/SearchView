@@ -120,8 +120,6 @@ class SearchTextFieldView: UIView {
         runButton.rx.controlEvent([.touchUpInside])
             .subscribe(onNext: { [unowned self]  in
                 self.doWhenRun()
-                let word = self.searchBarTextField.text
-                self.addSearchedWord(word)
             })
             .disposed(by: disposeBag)
     }
@@ -218,6 +216,9 @@ class SearchTextFieldView: UIView {
     
     private func doWhenRun(){
         print("doWhenRun")
+        if let word = self.searchBarTextField.text{
+            self.addSearchedWord(word)
+        }
         hideSearchHistory()
     }
 }
@@ -257,10 +258,8 @@ extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let suggestionWords = self.suggestionWords{
-            let word = suggestionWords[indexPath.row].word
+            searchBarTextField.text = suggestionWords[indexPath.row].word
             doWhenRun()
-            searchBarTextField.text = word
-            addSearchedWord(word)
         }
     }
 }

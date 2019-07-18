@@ -33,10 +33,7 @@ class SearchBarTests: XCTestCase {
     }
     func testSaveHistoryWhenRun(){
         //given
-        let realm = try! Realm()
-        try! realm.write {
-            realm.deleteAll()
-        }
+        commonGiven()
         
         let input1 = "input1"
         let input2 = "Input2"
@@ -57,10 +54,7 @@ class SearchBarTests: XCTestCase {
     
     func testShowHistoryWhenWhiteSpace(){
         //given
-        let realm = try! Realm()
-        try! realm.write {
-            realm.deleteAll()
-        }
+        commonGiven()
         
         var inputNum = 0
         repeat{
@@ -68,9 +62,11 @@ class SearchBarTests: XCTestCase {
             let inputString = "input\(inputNum)"
             let searchedThing = SearchedThing(value: ["word" : inputString.lowercased(), "time" : Int(Util.getCurrentTime(format:"yyyyMMddHHmmss"))!])
             
+            let realm = try! Realm()
             try! realm.write {
                 realm.add(searchedThing,update: true)
             }
+            
             sleep(1)
         }while inputNum < sut.maximumSearchedLoadNum + 1
         
@@ -81,8 +77,86 @@ class SearchBarTests: XCTestCase {
         sut.searchBarTextField.sendActions(for: .editingDidBegin)
         //then
           //lately maximum Until 5 words show
+        commonCheckWhenHistoryShow()
+    }
+    
+    func testShowHistroyWhenInputText(){
+        //given
+        commonGiven()
+        
+        let inputs = ["LOVE","Like"]
+        sut.searchBarTextField.text = inputs[0]
+        sut.runButton.sendActions(for: .touchUpInside)
+        
+        sleep(1)
+        
+        sut.searchBarTextField.text = inputs[1]
+        sut.runButton.sendActions(for: .touchUpInside)
+        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+
+        //when
+        sut.searchBarTextField.text = "L"
+        sut.searchBarTextField.sendActions(for: .editingChanged)
+        //then
+        var words = [String]()
+        for suggestionWord in sut.suggestionWords!{
+            words.append(suggestionWord.word)
+        }
+        XCTAssert(words.contains(inputs[0].lowercased()) && words.contains(inputs[1].lowercased()), "testShowHistroyWhenInputText not working ")
+        commonCheckWhenHistoryShow()
+        //when
+        sut.searchBarTextField.text = "Lo"
+        sut.searchBarTextField.sendActions(for: .editingChanged)
+
+        //then
+        words = [String]()
+        for suggestionWord in sut.suggestionWords!{
+            words.append(suggestionWord.word)
+        }
+        XCTAssert(words.contains(inputs[0].lowercased()), "lowerCased search not working ")
+        commonCheckWhenHistoryShow()
+        
+    }
+    
+    func testWhenHistoryTouched(){
+        //given
+        commonGiven()
+        
+        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+
+        let inputs = ["Love", "like"]
+        sut.searchBarTextField.text = inputs[0]
+        sut.runButton.sendActions(for: .touchUpInside)
+        sleep(1)
+        sut.searchBarTextField.text = inputs[1]
+        sut.runButton.sendActions(for: .touchUpInside)
+        
+        sut.searchBarTextField.text = ""
+        sut.searchBarTextField.sendActions(for: .editingChanged)
+
+        //when
+        let indexPath = IndexPath(row: 1, section: 0) //select "Love"
+        sut.suggestionListTableView.delegate?.tableView!(sut.suggestionListTableView, didSelectRowAt: indexPath)
+
+        //then
+        XCTAssertEqual(sut.searchBarTextField.text, inputs[0].lowercased(), "SelectedWord didn't input to TextField")
+        XCTAssert(sut.suggestionListTableView.isHidden == true, "History still Showing")
+        let searchedThings =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
+        
+        XCTAssertEqual(searchedThings[0].word , inputs[0].lowercased(), "Select word wan't updating order lately")
+    }
+    
+    private func commonGiven(){
+        let realm = try! Realm()
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
+    
+    private func commonCheckWhenHistoryShow(){
         checkGraterThanMaximumLoaded()
         checkShowSuggestionWordByDescending()
+        checkShowHistory()
     }
     
     private func checkGraterThanMaximumLoaded(){
@@ -98,6 +172,11 @@ class SearchBarTests: XCTestCase {
             prevTime = suggestionWord.time
         }
     }
+    private func checkShowHistory(){
+        XCTAssert(sut.suggestionListTableView.isHidden == false, "Show Suggestion is not working")
+        XCTAssert(sut.suggestionListTableView.numberOfRows(inSection: 0) == sut.suggestionWords?.count, "ShowingRowCount is not same suggestionWords")
+    }
+
     
     //given
     
