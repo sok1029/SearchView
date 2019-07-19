@@ -7,7 +7,6 @@ target 'SearchBar' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RealmSwift'
-
   
   # Pods for SearchBar
 

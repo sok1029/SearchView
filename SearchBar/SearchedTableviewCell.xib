@@ -18,8 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="252" height="41.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOK-Dm-ock">
-                        <rect key="frame" x="16" y="10.5" width="180" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOK-Dm-ock">
+                        <rect key="frame" x="7" y="10.5" width="189" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -29,13 +29,13 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="46" id="awT-M0-997"/>
                         </constraints>
-                        <state key="normal" title="Button"/>
+                        <state key="normal" title="Del"/>
                     </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="e9D-8g-U65" firstAttribute="leading" secondItem="ZOK-Dm-ock" secondAttribute="trailing" constant="10" id="5pb-QH-2oR"/>
                     <constraint firstItem="e9D-8g-U65" firstAttribute="centerY" secondItem="Qvs-Ya-mhm" secondAttribute="centerY" id="JgX-rh-go1"/>
-                    <constraint firstItem="ZOK-Dm-ock" firstAttribute="leading" secondItem="Qvs-Ya-mhm" secondAttribute="leading" constant="16" id="NQP-5V-gKB"/>
+                    <constraint firstItem="ZOK-Dm-ock" firstAttribute="leading" secondItem="Qvs-Ya-mhm" secondAttribute="leading" constant="7" id="NQP-5V-gKB"/>
                     <constraint firstAttribute="trailing" secondItem="e9D-8g-U65" secondAttribute="trailing" id="aap-fo-g3I"/>
                     <constraint firstItem="ZOK-Dm-ock" firstAttribute="centerY" secondItem="Qvs-Ya-mhm" secondAttribute="centerY" id="owK-mR-2Y0"/>
                 </constraints>

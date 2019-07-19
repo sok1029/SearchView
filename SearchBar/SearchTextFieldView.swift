@@ -12,7 +12,7 @@ import RxCocoa
 import RealmSwift
 
 class SearchedThing: Object{
-    @objc dynamic var word = blankString
+    @objc dynamic var word = ""
     @objc dynamic var time: Int = 0
     
     override static func primaryKey() -> String? {
@@ -27,6 +27,7 @@ class SearchTextFieldView: UIView {
     let maxSearchedLoadNum = 5
     let maxSearchedLoadNumMixed = 2
 
+    var actWhenRun: (()->())?
     let searchedWordFontSize: CGFloat = 17.0
     var superViewHeightConstraint: NSLayoutConstraint?
     
@@ -157,17 +158,17 @@ class SearchTextFieldView: UIView {
     private func updateSearchedHistory(input: String?){
         var suggestionWords = [SearchedThing]()
         //when inputstring in textfield, (searched word) in client + (frequently word) in server
-        if let input = input, input.trimmingCharacters(in: .whitespaces) != blankString{
+        if let input = input, input.trimmingCharacters(in: .whitespaces) != ""{
             //searched in client
             let realm = try! Realm()
             let searchedThings = realm.objects(SearchedThing.self).filter("word BEGINSWITH %@", input.lowercased()).sorted(byKeyPath: "time", ascending: false)
             
             for searchedThing in searchedThings{
                 suggestionWords.append(searchedThing)
-                if (suggestionWords.count == maxSearchedLoadNumMixed){ break}
+//                if (suggestionWords.count == maxSearchedLoadNumMixed){ break}
             }
             //Suggestion in server
-            
+                //input your ServerRequest Code
             
             self.suggestionWords.value = suggestionWords
         }
@@ -175,11 +176,9 @@ class SearchTextFieldView: UIView {
         else{
             for searchedThing in searchedThings{
                 suggestionWords.append(searchedThing)
-//                if (suggestionWords.count == maximumSearchedLoadNum){ break}
             }
             self.suggestionWords.value = suggestionWords
         }
-        
     }
     
     private func showSearchHistory(wordsCount: Int){
@@ -229,13 +228,17 @@ class SearchTextFieldView: UIView {
     }
     
     private func doWhenRun(){
-        if let word = self.searchBarTextField.text{
+        if let word = self.searchBarTextField.text, word.count > 0{
             self.addSearchedWord(word)
+            if let act = actWhenRun{
+                act()
+            }
         }
         hideSearchHistory()
     }
 }
 
+//MARK: TableViewDelegate, TableViewDataSource
 extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return rowHeight
@@ -270,5 +273,29 @@ extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
             searchBarTextField.text = suggestionWords.value[indexPath.row].word
             doWhenRun()
     }
+    
 }
+
+extension UIView {
+    func addSubviewBySameConstraint(subView: UIView){
+        self.addSubview(subView)
+        subView.translatesAutoresizingMaskIntoConstraints = false
+        subView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        subView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        subView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        subView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+    }
+}
+
+class Util {
+    //MARK: Time
+    static func getCurrentTime(format: String) -> String{
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
+}
+
+
 

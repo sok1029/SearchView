@@ -8,14 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		23862987DCB99BFD7060A0A0 /* Pods_SearchBarTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03656667F28CFB4A761C6C01 /* Pods_SearchBarTests.framework */; };
-		3E0CEB7722CF33DC004DBE90 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0CEB7622CF33DC004DBE90 /* Define.swift */; };
-		3E490CC322D86ABC00BD1E40 /* UIView + Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E490CC222D86ABC00BD1E40 /* UIView + Extenstion.swift */; };
 		3E7B5ED622D5CB5C0053586B /* SearchTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B5ED522D5CB5C0053586B /* SearchTextFieldView.swift */; };
 		3E7B5ED822D5CC2D0053586B /* SearchTextFieldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B5ED722D5CC2D0053586B /* SearchTextFieldView.xib */; };
 		3E7B5EDA22D5D6D70053586B /* SearchedTableviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B5ED922D5D6D70053586B /* SearchedTableviewCell.xib */; };
 		3ED30B6322D1D5B400EC171B /* SearchedTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED30B6222D1D5B400EC171B /* SearchedTableviewCell.swift */; };
-		3ED30B6522D1E9C400EC171B /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED30B6422D1E9C400EC171B /* Util.swift */; };
-		3EE1C6A222D33AAC00731DD4 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1C6A122D33AAC00731DD4 /* Array+Extension.swift */; };
 		3EE6DB1F22CDD635005700BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6DB1E22CDD635005700BD /* AppDelegate.swift */; };
 		3EE6DB2122CDD635005700BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE6DB2022CDD635005700BD /* ViewController.swift */; };
 		3EE6DB2422CDD635005700BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EE6DB2222CDD635005700BD /* Main.storyboard */; };
@@ -47,14 +43,10 @@
 /* Begin PBXFileReference section */
 		03656667F28CFB4A761C6C01 /* Pods_SearchBarTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchBarTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2774DCC539731E91252E6174 /* Pods-SearchBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchBar/Pods-SearchBar.debug.xcconfig"; sourceTree = "<group>"; };
-		3E0CEB7622CF33DC004DBE90 /* Define.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
-		3E490CC222D86ABC00BD1E40 /* UIView + Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extenstion.swift"; sourceTree = "<group>"; };
 		3E7B5ED522D5CB5C0053586B /* SearchTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextFieldView.swift; sourceTree = "<group>"; };
 		3E7B5ED722D5CC2D0053586B /* SearchTextFieldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTextFieldView.xib; sourceTree = "<group>"; };
 		3E7B5ED922D5D6D70053586B /* SearchedTableviewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchedTableviewCell.xib; sourceTree = "<group>"; };
 		3ED30B6222D1D5B400EC171B /* SearchedTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedTableviewCell.swift; sourceTree = "<group>"; };
-		3ED30B6422D1E9C400EC171B /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		3EE1C6A122D33AAC00731DD4 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		3EE6DB1B22CDD635005700BD /* SearchBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE6DB1E22CDD635005700BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3EE6DB2022CDD635005700BD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -118,15 +110,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		3E0CEB7822CF33F1004DBE90 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				3E0CEB7622CF33DC004DBE90 /* Define.swift */,
-				3ED30B6422D1E9C400EC171B /* Util.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
 		3EE6DB1222CDD635005700BD = {
 			isa = PBXGroup;
 			children = (
@@ -152,7 +135,6 @@
 		3EE6DB1D22CDD635005700BD /* SearchBar */ = {
 			isa = PBXGroup;
 			children = (
-				3E0CEB7822CF33F1004DBE90 /* Common */,
 				3EE6DB1E22CDD635005700BD /* AppDelegate.swift */,
 				3EE6DB2022CDD635005700BD /* ViewController.swift */,
 				3EE6DB2222CDD635005700BD /* Main.storyboard */,
@@ -161,10 +143,8 @@
 				3EE6DB2A22CDD636005700BD /* Info.plist */,
 				3E7B5ED922D5D6D70053586B /* SearchedTableviewCell.xib */,
 				3ED30B6222D1D5B400EC171B /* SearchedTableviewCell.swift */,
-				3EE1C6A122D33AAC00731DD4 /* Array+Extension.swift */,
 				3E7B5ED722D5CC2D0053586B /* SearchTextFieldView.xib */,
 				3E7B5ED522D5CB5C0053586B /* SearchTextFieldView.swift */,
-				3E490CC222D86ABC00BD1E40 /* UIView + Extenstion.swift */,
 			);
 			path = SearchBar;
 			sourceTree = "<group>";
@@ -416,12 +396,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3ED30B6322D1D5B400EC171B /* SearchedTableviewCell.swift in Sources */,
-				3E490CC322D86ABC00BD1E40 /* UIView + Extenstion.swift in Sources */,
-				3EE1C6A222D33AAC00731DD4 /* Array+Extension.swift in Sources */,
 				3EE6DB2122CDD635005700BD /* ViewController.swift in Sources */,
-				3ED30B6522D1E9C400EC171B /* Util.swift in Sources */,
 				3E7B5ED622D5CB5C0053586B /* SearchTextFieldView.swift in Sources */,
-				3E0CEB7722CF33DC004DBE90 /* Define.swift in Sources */,
 				3EE6DB1F22CDD635005700BD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
