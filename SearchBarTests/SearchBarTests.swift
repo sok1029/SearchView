@@ -71,7 +71,7 @@ class SearchBarTests: XCTestCase {
             }
             
             sleep(1)
-        }while inputNum < sut.maximumSearchedLoadNum + 1
+        }while inputNum < sut.maxSearchedLoadNum + 1
         
         let whiteSpace = ""
 
@@ -105,7 +105,7 @@ class SearchBarTests: XCTestCase {
         sut.searchBarTextField.sendActions(for: .editingChanged)
         //then
         var words = [String]()
-        for suggestionWord in sut.suggestionWords!{
+        for suggestionWord in sut.suggestionWords.value{
             words.append(suggestionWord.word)
         }
         XCTAssert(words.contains(inputs[0].lowercased()) && words.contains(inputs[1].lowercased()), "testShowHistroyWhenInputText not working ")
@@ -116,7 +116,7 @@ class SearchBarTests: XCTestCase {
 
         //then
         words = [String]()
-        for suggestionWord in sut.suggestionWords!{
+        for suggestionWord in sut.suggestionWords.value{
             words.append(suggestionWord.word)
         }
         XCTAssert(words.contains(inputs[0].lowercased()), "lowerCased search not working ")
@@ -173,7 +173,7 @@ class SearchBarTests: XCTestCase {
         //then
         
         var words = [String]()
-        for suggestionWord in sut.suggestionWords!{
+        for suggestionWord in sut.suggestionWords.value{
             words.append(suggestionWord.word)
         }
         
@@ -198,18 +198,18 @@ class SearchBarTests: XCTestCase {
     }
     
     private func commonCheckWhenHistoryShow(){
-        checkGraterThanMaximumLoaded()
+//        checkGraterThanMaximumLoaded()
         checkShowSuggestionWordByDescending()
         checkShowHistory()
     }
     
-    private func checkGraterThanMaximumLoaded(){
-         XCTAssertLessThan(sut.suggestionWords!.count, sut.maximumSearchedLoadNum + 1, "suggestionList is greater than maximumLoadNum")
-    }
+//    private func checkGraterThanMaximumLoaded(){
+//         XCTAssertLessThan(sut.suggestionWords.value.count, sut.maxSearchedLoadNum + 1, "suggestionList is greater than maximumLoadNum")
+//    }
     
     private func checkShowSuggestionWordByDescending(){
         var prevTime = 0
-        for suggestionWord in sut.suggestionWords!{
+        for suggestionWord in sut.suggestionWords.value{
             if prevTime != 0{
                 XCTAssertGreaterThan(prevTime, suggestionWord.time, "suggestionWords order is not descending")
             }
@@ -218,7 +218,7 @@ class SearchBarTests: XCTestCase {
     }
     private func checkShowHistory(){
         XCTAssert(sut.suggestionListTableView.isHidden == false, "Show Suggestion is not working")
-        XCTAssert(sut.suggestionListTableView.numberOfRows(inSection: 0) == sut.suggestionWords?.count, "ShowingRowCount is not same suggestionWords")
+        XCTAssert(sut.suggestionListTableView.numberOfRows(inSection: 0) == sut.getSuggestionWordsCount(count: sut.suggestionWords.value.count), "ShowingRowCount is not same suggestionWords")
     }
 
     
