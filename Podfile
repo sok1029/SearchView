@@ -8,16 +8,23 @@ target 'SearchBar' do
   pod 'RxCocoa'
   pod 'RealmSwift'
 
+  
   # Pods for SearchBar
 
   target 'SearchBarTests' do
     inherit! :search_paths
+#    pod 'Quick'
+#    pod 'Nimble'
+
     # Pods for testing
   end
 
   target 'SearchBarUITests' do
     inherit! :search_paths
     # Pods for testing
+#    pod 'Quick'
+#    pod 'Nimble'
+
   end
 
 end

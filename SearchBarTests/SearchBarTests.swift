@@ -39,6 +39,8 @@ class SearchBarTests: XCTestCase {
         let input2 = "Input2"
         
         //when
+        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+
         sut.searchBarTextField.text = input1
         sut.runButton.sendActions(for: .touchUpInside)
 
@@ -55,7 +57,8 @@ class SearchBarTests: XCTestCase {
     func testShowHistoryWhenWhiteSpace(){
         //given
         commonGiven()
-        
+        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+
         var inputNum = 0
         repeat{
             inputNum += 1
@@ -74,7 +77,7 @@ class SearchBarTests: XCTestCase {
 
         //when
         sut.searchBarTextField.text = whiteSpace
-        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+        sut.searchBarTextField.sendActions(for: .editingChanged)
         //then
           //lately maximum Until 5 words show
         commonCheckWhenHistoryShow()
@@ -83,7 +86,8 @@ class SearchBarTests: XCTestCase {
     func testShowHistroyWhenInputText(){
         //given
         commonGiven()
-        
+        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+
         let inputs = ["LOVE","Like"]
         sut.searchBarTextField.text = inputs[0]
         sut.runButton.sendActions(for: .touchUpInside)
@@ -92,7 +96,9 @@ class SearchBarTests: XCTestCase {
         
         sut.searchBarTextField.text = inputs[1]
         sut.runButton.sendActions(for: .touchUpInside)
-        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+        
+        sut.searchBarTextField.text = ""
+        sut.runButton.sendActions(for: .editingChanged)
 
         //when
         sut.searchBarTextField.text = "L"
@@ -118,10 +124,9 @@ class SearchBarTests: XCTestCase {
         
     }
     
-    func testWhenHistoryTouched(){
+    func testWhenHistorySelected(){
         //given
         commonGiven()
-        
         sut.searchBarTextField.sendActions(for: .editingDidBegin)
 
         let inputs = ["Love", "like"]
@@ -145,6 +150,45 @@ class SearchBarTests: XCTestCase {
         
         XCTAssertEqual(searchedThings[0].word , inputs[0].lowercased(), "Select word wan't updating order lately")
     }
+    
+    func testWhenHistoryDeleted(){
+        //given
+        commonGiven()
+        sut.searchBarTextField.sendActions(for: .editingDidBegin)
+
+        let inputs = ["LOVE","like"]
+        sut.searchBarTextField.text = inputs[0]
+        sut.runButton.sendActions(for: .touchUpInside)
+        sleep(1)
+        sut.searchBarTextField.text = inputs[1]
+        sut.runButton.sendActions(for: .touchUpInside)
+       
+        sut.searchBarTextField.text = ""
+        sut.searchBarTextField.sendActions(for: .editingChanged)
+
+        //when
+        let indexPath = IndexPath(row: 0, section: 0) //delete "like"
+        let cell = sut.suggestionListTableView.cellForRow(at: indexPath) as! SearchedTableviewCell
+        cell.delButton.sendActions(for: .touchUpInside)
+        //then
+        
+        var words = [String]()
+        for suggestionWord in sut.suggestionWords!{
+            words.append(suggestionWord.word)
+        }
+        
+        XCTAssert(words.contains(inputs[1].lowercased()) == false, "didn't deleted in tableview")
+        
+        let searchedThings =  try! Realm().objects(SearchedThing.self)
+        words = [String]()
+        for searchThing in searchedThings{
+            words.append(searchThing.word)
+        }
+        
+        XCTAssert(words.contains(inputs[1].lowercased()) == false, "didn't deleted in Database")
+    }
+
+    
     
     private func commonGiven(){
         let realm = try! Realm()

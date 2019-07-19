@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SearchBar/SearchTextFieldView.swift"
-            timestampString = "584875215.381557"
+            filePath = "SearchBarTests/SearchBarTests.swift"
+            timestampString = "585208850.3343379"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "showSearchHistory(wordCount:)"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "testWhenHistoryDeleted()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SearchBar/SearchTextFieldView.swift"
-            timestampString = "584875215.382063"
+            filePath = "SearchBarTests/SearchBarTests.swift"
+            timestampString = "585208850.334908"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "testWhenHistoryDeleted()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SearchBar/ViewController.swift"
-            timestampString = "584875215.3823839"
+            filePath = "SearchBarTests/SearchBarTests.swift"
+            timestampString = "585208850.3353209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "setTextFieldViewButtonEventHandler()"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "testWhenHistoryDeleted()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SearchBarTests/SearchBarTests.swift"
+            timestampString = "585208850.335759"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "testWhenHistorySelected()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SearchBarTests/SearchBarTests.swift"
+            timestampString = "585208850.336363"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "testWhenHistorySelected()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
