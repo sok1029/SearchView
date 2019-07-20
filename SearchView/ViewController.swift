@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  SearchBar
+//  SearchView
 //
 //  Created by SokJinYoung on 04/07/2019.
 //  Copyright © 2019 Stone. All rights reserved.
@@ -14,7 +14,7 @@ import RealmSwift
 
 class ViewController: UIViewController {
     let disposeBag = DisposeBag()
-    @IBOutlet weak var searchTextFieldView: SearchTextFieldView!
+    @IBOutlet weak var searchView: SearchView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,15 +22,15 @@ class ViewController: UIViewController {
         //        let textFieldView = SearchTextFieldView.init(frame: CGRect(x: 50, y: 50, width: 250, height: 100))
         //        self.view.addSubview(textFieldView)
         
-        searchTextFieldView.actWhenRun = {
+        searchView.actWhenRun = {
             print("doSomethingInViewController")
         }
     }
     
     func configure(){
-//      searchTextFieldView.commonInit()
-
+        //      searchTextFieldView.commonInit()
+        
     }
-
+    
 }
 

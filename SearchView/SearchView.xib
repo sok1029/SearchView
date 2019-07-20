@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchTextFieldView" customModule="SearchBar" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchTextFieldView" customModule="SearchView" customModuleProvider="target">
             <connections>
                 <outlet property="runButton" destination="Rls-el-XGb" id="lht-Xc-N23"/>
                 <outlet property="searchBarHeightConstraint" destination="nk4-4U-31c" id="BSD-lX-5wm"/>

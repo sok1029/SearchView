@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  SearchBar
+//  SearchView
 //
 //  Created by SokJinYoung on 04/07/2019.
 //  Copyright © 2019 Stone. All rights reserved.
@@ -20,7 +20,7 @@ class SearchedThing: Object{
     }
 }
 
-class SearchTextFieldView: UIView {
+class SearchView: UIView {
     let initType: InitType
     let disposeBag = DisposeBag()
     var searchBarHeight: CGFloat = 0
@@ -239,7 +239,7 @@ class SearchTextFieldView: UIView {
 }
 
 //MARK: TableViewDelegate, TableViewDataSource
-extension SearchTextFieldView: UITableViewDelegate,UITableViewDataSource{
+extension SearchView: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return rowHeight
     }

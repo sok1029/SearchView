@@ -1,6 +1,6 @@
 //
 //  SearchedTableviewCell.swift
-//  SearchBar
+//  SearchView
 //
 //  Created by SokJinYoung on 07/07/2019.
 //  Copyright © 2019 Stone. All rights reserved.
