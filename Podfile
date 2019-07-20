@@ -8,7 +8,6 @@ target 'SearchView' do
     pod 'RxCocoa'
     pod 'RealmSwift'
     
-    
     # Pods for SearchView
     
     target 'SearchViewTests' do

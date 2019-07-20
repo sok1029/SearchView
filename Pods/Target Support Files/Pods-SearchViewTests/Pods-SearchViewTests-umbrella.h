@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_SearchBarVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_SearchBarVersionString[];
+FOUNDATION_EXPORT double Pods_SearchViewTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_SearchViewTestsVersionString[];
 
