@@ -23,14 +23,9 @@ class ViewController: UIViewController {
         //        self.view.addSubview(textFieldView)
         
         searchView.actWhenRun = {
+            //input Your act when running
             print("doSomethingInViewController")
         }
     }
-    
-    func configure(){
-        //      searchTextFieldView.commonInit()
-        
-    }
-    
 }
 

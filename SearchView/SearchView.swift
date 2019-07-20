@@ -11,32 +11,36 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 
-class SearchedThing: Object{
-    @objc dynamic var word = ""
+class SearchedWord: Object{
+    @objc dynamic var text = ""
     @objc dynamic var time: Int = 0
     
     override static func primaryKey() -> String? {
-        return "word"
+        return "text"
     }
 }
 
 class SearchView: UIView {
     let initType: InitType
+  
     let disposeBag = DisposeBag()
-    var searchBarHeight: CGFloat = 0
+    
     let maxSearchedLoadNum = 5
     let maxSearchedLoadNumMixed = 2
-
-    var actWhenRun: (()->())?
     let searchedWordFontSize: CGFloat = 17.0
+    var searchBarHeight: CGFloat = 0
+    
+    lazy var suggestionWords = Variable<[SearchedWord]>([])
+    lazy var searchedWords =  try! Realm().objects(SearchedWord.self).sorted(byKeyPath: "time", ascending: false)
+    
+    var actWhenRun: (()->())?
     var superViewHeightConstraint: NSLayoutConstraint?
     
     @IBOutlet weak var runButton: UIButton!
-    lazy var searchedThings =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
-    lazy var suggestionWords = Variable<[SearchedThing]>([])
     
     @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var suggestionListViewHeightConstraint: NSLayoutConstraint!
+ 
     @IBOutlet weak var suggestionListTableView: UITableView!
     @IBOutlet weak var searchBarTextField: UITextField!
     
@@ -66,12 +70,13 @@ class SearchView: UIView {
         guard let xibName = NSStringFromClass(self.classForCoder).components(separatedBy: ".").last else { return false }
         let view =  Bundle.main.loadNibNamed(xibName, owner: self, options: nil)?.first as! UIView
         
-        //firstHeight define to searchBarHeight
+        //init searchBarHeight by bounsHeight
         searchBarHeight = self.bounds.height
-        setSearchBarEventHandler()
-        setRunButtonEventHandler()
-        setSuggestionUpdateHandler()
-        setSuggestionListTableView()
+        
+        setUIEventHandler()
+        setActWhenSuggestionWordsUpdate()
+        setSuggestionWordsList()
+        
         self.addSubviewBySameConstraint(subView: view)
         
         return true
@@ -103,41 +108,49 @@ class SearchView: UIView {
         }
     }
     
-    //MARK: UI Handler
-    private func setSearchBarEventHandler(){
+    //MARK: UI Event Handler
+    private func setUIEventHandler(){
+        //textField
         searchBarTextField.rx.controlEvent([.editingDidBegin,.editingChanged])
             .withLatestFrom(searchBarTextField.rx.text.orEmpty)
             .subscribe(onNext: { [weak self]  (text) in
-                self?.updateSearchedHistory(input: text)
+                self?.updateSuggestionWordsList(input: text)
             })
             .disposed(by: disposeBag)
         
         searchBarTextField.rx.controlEvent([.editingDidEnd])
             .withLatestFrom(searchBarTextField.rx.text.orEmpty)
             .subscribe(onNext: { [weak self]  (text) in
-                self?.hideSearchHistory()
+                self?.hideSuggestionWordsList()
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func setRunButtonEventHandler(){
+        //run button
         runButton.rx.controlEvent([.touchUpInside])
             .subscribe(onNext: { [weak self]  in
                 self?.doWhenRun()
             })
             .disposed(by: disposeBag)
     }
-
-    private func setSuggestionUpdateHandler(){
+    
+    //MARK: SuggestionWords List
+    private func setSuggestionWordsList(){
+        suggestionListTableView.delegate = self
+        suggestionListTableView.dataSource = self
+        
+        let nib = UINib(nibName: reuseCellIdentifier, bundle: nil)
+        suggestionListTableView.register(nib, forCellReuseIdentifier: reuseCellIdentifier)
+    }
+    
+    private func setActWhenSuggestionWordsUpdate(){
         suggestionWords.asObservable()
             .subscribe(onNext: { [weak self] suggestionWords in
                 guard let strongSelf = self else {return}
                 if suggestionWords.count > 0{
                     let wordsCount = strongSelf.getSuggestionWordsCount(count: suggestionWords.count)
-                    strongSelf.showSearchHistory(wordsCount: wordsCount)
+                    strongSelf.showSuggestionWordsList(count: wordsCount)
                 }
                 else{
-                    strongSelf.hideSearchHistory()
+                    strongSelf.hideSuggestionWordsList()
                 }
             })
             .disposed(by: disposeBag)
@@ -147,24 +160,14 @@ class SearchView: UIView {
         return count < maxSearchedLoadNum ?  count : maxSearchedLoadNum
     }
     
-    private func setSuggestionListTableView(){
-        suggestionListTableView.delegate = self
-        suggestionListTableView.dataSource = self
-        
-        let nib = UINib(nibName: reuseCellIdentifier, bundle: nil)
-        suggestionListTableView.register(nib, forCellReuseIdentifier: reuseCellIdentifier)
-    }
-    
-    private func updateSearchedHistory(input: String?){
-        var suggestionWords = [SearchedThing]()
-        //when inputstring in textfield, (searched word) in client + (frequently word) in server
+    private func updateSuggestionWordsList(input: String?){
+        var suggestionWords = [SearchedWord]()
+        //when is string in textfield, (searched word) in client + (frequently word) in server
         if let input = input, input.trimmingCharacters(in: .whitespaces) != ""{
             //searched in client
-            let realm = try! Realm()
-            let searchedThings = realm.objects(SearchedThing.self).filter("word BEGINSWITH %@", input.lowercased()).sorted(byKeyPath: "time", ascending: false)
-            
-            for searchedThing in searchedThings{
-                suggestionWords.append(searchedThing)
+            let searchedWords = getSearchedWord(beginWith: input)
+            for searchedword in searchedWords{
+                suggestionWords.append(searchedword)
 //                if (suggestionWords.count == maxSearchedLoadNumMixed){ break}
             }
             //Suggestion in server
@@ -172,20 +175,20 @@ class SearchView: UIView {
             
             self.suggestionWords.value = suggestionWords
         }
-            //when blankstring in textfield , show 5 searched words
+        //when blankstring in textfield , show 5 searched words
         else{
-            for searchedThing in searchedThings{
-                suggestionWords.append(searchedThing)
+            for searchedWord in searchedWords{
+                suggestionWords.append(searchedWord)
             }
             self.suggestionWords.value = suggestionWords
         }
     }
     
-    private func showSearchHistory(wordsCount: Int){
+    private func showSuggestionWordsList(count: Int){
         suggestionListTableView.isHidden = false
         suggestionListTableView.reloadData()
         
-        let tableViewHeight = (rowHeight * CGFloat(wordsCount))
+        let tableViewHeight = (rowHeight * CGFloat(count))
         let allHeight = searchBarHeight + tableViewHeight
         suggestionListViewHeightConstraint.constant = tableViewHeight
        
@@ -197,7 +200,7 @@ class SearchView: UIView {
         }
     }
     
-    private func hideSearchHistory(){
+    private func hideSuggestionWordsList(){
         suggestionListTableView.isHidden = true
         if initType == .frameType{
             self.frame.size.height =  searchBarHeight
@@ -207,10 +210,11 @@ class SearchView: UIView {
         }
     }
     
+    //MARK: Database (Realm)
     private func addSearchedWord(_ word: String?){
         if let text = word, text.count > 0{
             //only lowercased text
-            let searchedThing = SearchedThing(value: ["word" : text.lowercased(), "time" : Int(Util.getCurrentTime(format:"yyyyMMddHHmmss"))!])
+            let searchedThing = SearchedWord(value: ["text" : text.lowercased(), "time" : Int(Util.getCurrentTime(format:"yyyyMMddHHmmss"))!])
             
             let realm = try! Realm()
             try! realm.write {
@@ -221,12 +225,18 @@ class SearchView: UIView {
     
     private func removeSearchedWord(_ word: String){
         let realm = try! Realm()
-        let searchedThings = realm.objects(SearchedThing.self).filter("word = '\(word)'")
+        let searchedThings = realm.objects(SearchedWord.self).filter("text = '\(word)'")
         try! realm.write {
             realm.delete(searchedThings)
         }
     }
     
+    private func getSearchedWord(beginWith word: String) -> Results<SearchedWord>{
+        let realm = try! Realm()
+        return realm.objects(SearchedWord.self).filter("text BEGINSWITH %@", word.lowercased()).sorted(byKeyPath: "time", ascending: false)
+    }
+    
+    //MARK: Run Action
     private func doWhenRun(){
         if let word = self.searchBarTextField.text, word.count > 0{
             self.addSearchedWord(word)
@@ -234,7 +244,7 @@ class SearchView: UIView {
                 act()
             }
         }
-        hideSearchHistory()
+        hideSuggestionWordsList()
     }
 }
 
@@ -253,27 +263,24 @@ extension SearchView: UITableViewDelegate,UITableViewDataSource{
         //del button event
         cell.delButton.rx.tap.asDriver()
             .drive(onNext: { [weak self] in
-                // code that has to be handled by view controller
                 self?.removeSearchedWord(cell.searchedWordLabel!.text!)
                 self?.suggestionWords.value.remove(at: indexPath.row)
             }).disposed(by: cell.bag)
         
         //bold effect to equal string with textfield
-        let word = NSMutableAttributedString(string: suggestionWords.value[indexPath.row].word)
+        let word = NSMutableAttributedString(string: suggestionWords.value[indexPath.row].text)
         let range = NSRange(location: 0, length: searchBarTextField.text!.count)
         let atrribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: searchedWordFontSize)]
-        
         word.addAttributes(atrribute, range: range)
-        
         cell.searchedWordLabel.attributedText = word
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            searchBarTextField.text = suggestionWords.value[indexPath.row].word
-            doWhenRun()
+        searchBarTextField.text = suggestionWords.value[indexPath.row].text
+        doWhenRun()
     }
-    
 }
 
 extension UIView {
@@ -288,7 +295,6 @@ extension UIView {
 }
 
 class Util {
-    //MARK: Time
     static func getCurrentTime(format: String) -> String{
         let date = Date()
         let formatter = DateFormatter()

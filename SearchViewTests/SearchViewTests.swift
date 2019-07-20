@@ -19,18 +19,13 @@ class SearchViewTests: XCTestCase {
     override func setUp() {
         super.setUp()
         sut = SearchView(frame: CGRect(x: 50, y: 50, width: 250, height: 100))
-        
-        //        let textFieldView = SearchTextFieldView.init(frame: CGRect(x: 50, y: 50, width: 250, height: 100))
-        //        self.view.addSubview(textFieldView)
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
         sut = nil
         super.tearDown()
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
     func testSaveHistoryWhenRun(){
         //given
         commonGiven()
@@ -48,10 +43,10 @@ class SearchViewTests: XCTestCase {
         sut.runButton.sendActions(for: .touchUpInside)
 
         //then
-        let searchedThings =  try! Realm().objects(SearchedThing.self)
+        let searchedThings =  try! Realm().objects(SearchedWord.self)
         
-        XCTAssertEqual(searchedThings[0].word, input1, "Input String didn't save in DB")
-        XCTAssertEqual(searchedThings[1].word, input2.lowercased(), "saved String Not adjust lowerCased")
+        XCTAssertEqual(searchedThings[0].text, input1, "Input String didn't save in DB")
+        XCTAssertEqual(searchedThings[1].text, input2.lowercased(), "saved String Not adjust lowerCased")
     }
     
     func testShowHistoryWhenWhiteSpace(){
@@ -63,7 +58,7 @@ class SearchViewTests: XCTestCase {
         repeat{
             inputNum += 1
             let inputString = "input\(inputNum)"
-            let searchedThing = SearchedThing(value: ["word" : inputString.lowercased(), "time" : Int(Util.getCurrentTime(format:"yyyyMMddHHmmss"))!])
+            let searchedThing = SearchedWord(value: ["text" : inputString.lowercased(), "time" : Int(Util.getCurrentTime(format:"yyyyMMddHHmmss"))!])
             
             let realm = try! Realm()
             try! realm.write {
@@ -106,7 +101,7 @@ class SearchViewTests: XCTestCase {
         //then
         var words = [String]()
         for suggestionWord in sut.suggestionWords.value{
-            words.append(suggestionWord.word)
+            words.append(suggestionWord.text)
         }
         XCTAssert(words.contains(inputs[0].lowercased()) && words.contains(inputs[1].lowercased()), "testShowHistroyWhenInputText not working ")
         commonCheckWhenHistoryShow()
@@ -117,7 +112,7 @@ class SearchViewTests: XCTestCase {
         //then
         words = [String]()
         for suggestionWord in sut.suggestionWords.value{
-            words.append(suggestionWord.word)
+            words.append(suggestionWord.text)
         }
         XCTAssert(words.contains(inputs[0].lowercased()), "lowerCased search not working ")
         commonCheckWhenHistoryShow()
@@ -146,9 +141,9 @@ class SearchViewTests: XCTestCase {
         //then
         XCTAssertEqual(sut.searchBarTextField.text, inputs[0].lowercased(), "SelectedWord didn't input to TextField")
         XCTAssert(sut.suggestionListTableView.isHidden == true, "History still Showing")
-        let searchedThings =  try! Realm().objects(SearchedThing.self).sorted(byKeyPath: "time", ascending: false)
+        let searchedThings =  try! Realm().objects(SearchedWord.self).sorted(byKeyPath: "time", ascending: false)
         
-        XCTAssertEqual(searchedThings[0].word , inputs[0].lowercased(), "Select word wan't updating order lately")
+        XCTAssertEqual(searchedThings[0].text , inputs[0].lowercased(), "Select word wan't updating order lately")
     }
     
     func testWhenHistoryDeleted(){
@@ -174,21 +169,19 @@ class SearchViewTests: XCTestCase {
         
         var words = [String]()
         for suggestionWord in sut.suggestionWords.value{
-            words.append(suggestionWord.word)
+            words.append(suggestionWord.text)
         }
         
         XCTAssert(words.contains(inputs[1].lowercased()) == false, "didn't deleted in tableview")
         
-        let searchedThings =  try! Realm().objects(SearchedThing.self)
+        let searchedWords =  try! Realm().objects(SearchedWord.self)
         words = [String]()
-        for searchThing in searchedThings{
-            words.append(searchThing.word)
+        for searchedWord in searchedWords{
+            words.append(searchedWord.text)
         }
         
         XCTAssert(words.contains(inputs[1].lowercased()) == false, "didn't deleted in Database")
     }
-
-    
     
     private func commonGiven(){
         let realm = try! Realm()
@@ -203,10 +196,6 @@ class SearchViewTests: XCTestCase {
         checkShowHistory()
     }
     
-//    private func checkGraterThanMaximumLoaded(){
-//         XCTAssertLessThan(sut.suggestionWords.value.count, sut.maxSearchedLoadNum + 1, "suggestionList is greater than maximumLoadNum")
-//    }
-    
     private func checkShowSuggestionWordByDescending(){
         var prevTime = 0
         for suggestionWord in sut.suggestionWords.value{
@@ -216,28 +205,9 @@ class SearchViewTests: XCTestCase {
             prevTime = suggestionWord.time
         }
     }
+    
     private func checkShowHistory(){
         XCTAssert(sut.suggestionListTableView.isHidden == false, "Show Suggestion is not working")
         XCTAssert(sut.suggestionListTableView.numberOfRows(inSection: 0) == sut.getSuggestionWordsCount(count: sut.suggestionWords.value.count), "ShowingRowCount is not same suggestionWords")
     }
-
-    
-    //given
-    
-    //when
-    
-    //then
-//    func testExample() {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//    }
-//
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
-    
-    
 }
