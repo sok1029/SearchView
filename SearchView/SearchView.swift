@@ -22,7 +22,7 @@ class SearchedWord: Object{
 
 class SearchView: UIView {
     let initType: InitType
-  
+    
     let disposeBag = DisposeBag()
     
     let maxSearchedLoadNum = 5
@@ -30,7 +30,7 @@ class SearchView: UIView {
     let searchedWordFontSize: CGFloat = 17.0
     var searchBarHeight: CGFloat = 0
     
-    lazy var suggestionWords = Variable<[SearchedWord]>([])
+    lazy var suggestionWords = BehaviorRelay<[SearchedWord]>(value: [])
     lazy var searchedWords =  try! Realm().objects(SearchedWord.self).sorted(byKeyPath: "time", ascending: false)
     
     var actWhenRun: (()->())?
@@ -40,14 +40,14 @@ class SearchView: UIView {
     
     @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var suggestionListViewHeightConstraint: NSLayoutConstraint!
- 
+    
     @IBOutlet weak var suggestionListTableView: UITableView!
     @IBOutlet weak var searchBarTextField: UITextField!
     
     enum InitType{
         case frameType, coderType
     }
-
+    
     override init(frame: CGRect) {
         initType = .frameType
         super.init(frame: frame)
@@ -168,19 +168,19 @@ class SearchView: UIView {
             let searchedWords = getSearchedWord(beginWith: input)
             for searchedword in searchedWords{
                 suggestionWords.append(searchedword)
-//                if (suggestionWords.count == maxSearchedLoadNumMixed){ break}
+                //                if (suggestionWords.count == maxSearchedLoadNumMixed){ break}
             }
             //Suggestion in server
-                //input your ServerRequest Code
+            //input your ServerRequest Code
             
-            self.suggestionWords.value = suggestionWords
+            self.suggestionWords.accept(suggestionWords)
         }
-        //when blankstring in textfield , show 5 searched words
+            //when blankstring in textfield , show 5 searched words
         else{
             for searchedWord in searchedWords{
                 suggestionWords.append(searchedWord)
             }
-            self.suggestionWords.value = suggestionWords
+            self.suggestionWords.accept(suggestionWords)
         }
     }
     
@@ -191,7 +191,7 @@ class SearchView: UIView {
         let tableViewHeight = (rowHeight * CGFloat(count))
         let allHeight = searchBarHeight + tableViewHeight
         suggestionListViewHeightConstraint.constant = tableViewHeight
-       
+        
         if initType == .frameType{
             self.frame.size.height =  allHeight
         }
@@ -264,7 +264,7 @@ extension SearchView: UITableViewDelegate,UITableViewDataSource{
         cell.delButton.rx.tap.asDriver()
             .drive(onNext: { [weak self] in
                 self?.removeSearchedWord(cell.searchedWordLabel!.text!)
-                self?.suggestionWords.value.remove(at: indexPath.row)
+                self?.suggestionWords.remove(at: indexPath.row)
             }).disposed(by: cell.bag)
         
         //bold effect to equal string with textfield
@@ -291,6 +291,26 @@ extension UIView {
         subView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         subView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         subView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+    }
+}
+
+extension BehaviorRelay where Element: RangeReplaceableCollection {
+    func insert(_ subElement: Element.Element, at index: Element.Index) {
+        var newValue = value
+        newValue.insert(subElement, at: index)
+        accept(newValue)
+    }
+    
+    func insert(contentsOf newSubelements: Element, at index: Element.Index) {
+        var newValue = value
+        newValue.insert(contentsOf: newSubelements, at: index)
+        accept(newValue)
+    }
+    
+    func remove(at index: Element.Index) {
+        var newValue = value
+        newValue.remove(at: index)
+        accept(newValue)
     }
 }
 
