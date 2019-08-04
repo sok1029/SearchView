@@ -33,7 +33,7 @@ class SearchView: UIView {
     lazy var suggestionWords = BehaviorRelay<[SearchedWord]>(value: [])
     lazy var searchedWords =  try! Realm().objects(SearchedWord.self).sorted(byKeyPath: "time", ascending: false)
     
-    var customActWhenRun: (()->())?
+    var actWhenRun: (()->())?
     var superViewHeightConstraint: NSLayoutConstraint?
     
     @IBOutlet weak var runButton: UIButton!
@@ -131,7 +131,7 @@ class SearchView: UIView {
         //run button
         runButton.rx.controlEvent([.touchUpInside])
             .subscribe(onNext: { [weak self]  in
-                self?.actWhenRun()
+                self?.doWhenRun()
             })
             .disposed(by: disposeBag)
     }
@@ -238,11 +238,11 @@ class SearchView: UIView {
     }
     
     //MARK: -Run Action
-    private func actWhenRun(){
+    private func doWhenRun(){
         if let word = self.searchBarTextField.text, word.count > 0{
             self.addSearchedWord(word)
-            if let act = customActWhenRun{
-                act()
+            if let doAct = actWhenRun{
+                doAct()
             }
         }
         hideSuggestionWordsList()
@@ -281,7 +281,7 @@ extension SearchView: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchBarTextField.text = suggestionWords.value[indexPath.row].text
-        actWhenRun()
+        doWhenRun()
     }
 }
 

@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
       
-        searchView.customActWhenRun = {[weak self] in
+        searchView.actWhenRun = {[weak self] in
             //input Your act when running
             self?.activityIndicator.startAnimating()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {[weak self] in
