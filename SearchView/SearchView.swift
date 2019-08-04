@@ -25,15 +25,15 @@ class SearchView: UIView {
     
     let disposeBag = DisposeBag()
     
-    let maxSearchedLoadNum = 5
-    let maxSearchedLoadNumMixed = 2
+    let maxSearchedLoadCount = 5
+    let maxMixedSearchedLoadCount = 2
     let searchedWordFontSize: CGFloat = 17.0
     var searchBarHeight: CGFloat = 0
     
     lazy var suggestionWords = BehaviorRelay<[SearchedWord]>(value: [])
     lazy var searchedWords =  try! Realm().objects(SearchedWord.self).sorted(byKeyPath: "time", ascending: false)
     
-    var actWhenRun: (()->())?
+    var customActWhenRun: (()->())?
     var superViewHeightConstraint: NSLayoutConstraint?
     
     @IBOutlet weak var runButton: UIButton!
@@ -87,15 +87,19 @@ class SearchView: UIView {
     
     private func coderTypeInit(){
         //remove already Height Constraint
-        for constraint in self.constraints{
-            if constraint.firstAttribute == .bottom ||
-                constraint.firstAttribute == .height {
-                self.removeConstraint(constraint)
+        for c in self.constraints{
+            if c.firstAttribute == .bottom ||
+                c.firstAttribute == .height {
+                self.removeConstraint(c)
                 break
             }
         }
         //create new Height Constraint
-        superViewHeightConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: searchBarHeight)
+        superViewHeightConstraint = NSLayoutConstraint(item: self,
+                                                       attribute: NSLayoutConstraint.Attribute.height,
+                                                       relatedBy: NSLayoutConstraint.Relation.equal,
+                                                       toItem: nil,
+                                                       attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: searchBarHeight)
         if let constraint = superViewHeightConstraint{
             self.addConstraint(constraint)
         }
@@ -108,7 +112,7 @@ class SearchView: UIView {
         }
     }
     
-    //MARK: UI Event Handler
+    //MARK: -UI Event Handler
     private func setUIEventHandler(){
         //textField
         searchBarTextField.rx.controlEvent([.editingDidBegin,.editingChanged])
@@ -127,37 +131,31 @@ class SearchView: UIView {
         //run button
         runButton.rx.controlEvent([.touchUpInside])
             .subscribe(onNext: { [weak self]  in
-                self?.doWhenRun()
+                self?.actWhenRun()
             })
             .disposed(by: disposeBag)
     }
     
-    //MARK: SuggestionWords List
+    //MARK: -SuggestionWords List
     private func setSuggestionWordsList(){
         suggestionListTableView.delegate = self
         suggestionListTableView.dataSource = self
-        
-        let nib = UINib(nibName: reuseCellIdentifier, bundle: nil)
-        suggestionListTableView.register(nib, forCellReuseIdentifier: reuseCellIdentifier)
+        suggestionListTableView.register(UINib(nibName: reuseCellIdentifier, bundle: nil),
+                                         forCellReuseIdentifier: reuseCellIdentifier)
     }
     
     private func setActWhenSuggestionWordsUpdate(){
         suggestionWords.asObservable()
             .subscribe(onNext: { [weak self] suggestionWords in
-                guard let strongSelf = self else {return}
+                guard let sSelf = self else {return}
                 if suggestionWords.count > 0{
-                    let wordsCount = strongSelf.getSuggestionWordsCount(count: suggestionWords.count)
-                    strongSelf.showSuggestionWordsList(count: wordsCount)
+                    sSelf.showSuggestionWordsList(count: suggestionWords.count)
                 }
                 else{
-                    strongSelf.hideSuggestionWordsList()
+                    sSelf.hideSuggestionWordsList()
                 }
             })
             .disposed(by: disposeBag)
-    }
-    
-    func getSuggestionWordsCount(count: Int) -> Int{
-        return count < maxSearchedLoadNum ?  count : maxSearchedLoadNum
     }
     
     private func updateSuggestionWordsList(input: String?){
@@ -165,10 +163,10 @@ class SearchView: UIView {
         //when is string in textfield, (searched word) in client + (frequently word) in server
         if let input = input, input.trimmingCharacters(in: .whitespaces) != ""{
             //searched in client
-            let searchedWords = getSearchedWord(beginWith: input)
+            let searchedWords = getSearchedWords(beginWith: input)
             for searchedword in searchedWords{
                 suggestionWords.append(searchedword)
-                //                if (suggestionWords.count == maxSearchedLoadNumMixed){ break}
+                if (suggestionWords.count == maxSearchedLoadCount){ break}
             }
             //Suggestion in server
             //input your ServerRequest Code
@@ -179,6 +177,7 @@ class SearchView: UIView {
         else{
             for searchedWord in searchedWords{
                 suggestionWords.append(searchedWord)
+                if (suggestionWords.count == maxSearchedLoadCount){ break}
             }
             self.suggestionWords.accept(suggestionWords)
         }
@@ -190,6 +189,7 @@ class SearchView: UIView {
         
         let tableViewHeight = (rowHeight * CGFloat(count))
         let allHeight = searchBarHeight + tableViewHeight
+       
         suggestionListViewHeightConstraint.constant = tableViewHeight
         
         if initType == .frameType{
@@ -202,6 +202,7 @@ class SearchView: UIView {
     
     private func hideSuggestionWordsList(){
         suggestionListTableView.isHidden = true
+      
         if initType == .frameType{
             self.frame.size.height =  searchBarHeight
         }
@@ -210,7 +211,7 @@ class SearchView: UIView {
         }
     }
     
-    //MARK: Database (Realm)
+    //MARK: -Database (Realm)
     private func addSearchedWord(_ word: String?){
         if let text = word, text.count > 0{
             //only lowercased text
@@ -231,16 +232,16 @@ class SearchView: UIView {
         }
     }
     
-    private func getSearchedWord(beginWith word: String) -> Results<SearchedWord>{
+    private func getSearchedWords(beginWith word: String) -> Results<SearchedWord>{
         let realm = try! Realm()
         return realm.objects(SearchedWord.self).filter("text BEGINSWITH %@", word.lowercased()).sorted(byKeyPath: "time", ascending: false)
     }
     
-    //MARK: Run Action
-    private func doWhenRun(){
+    //MARK: -Run Action
+    private func actWhenRun(){
         if let word = self.searchBarTextField.text, word.count > 0{
             self.addSearchedWord(word)
-            if let act = actWhenRun{
+            if let act = customActWhenRun{
                 act()
             }
         }
@@ -248,14 +249,14 @@ class SearchView: UIView {
     }
 }
 
-//MARK: TableViewDelegate, TableViewDataSource
+//MARK: -TableViewDelegate, TableViewDataSource
 extension SearchView: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return rowHeight
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  getSuggestionWordsCount(count: suggestionWords.value.count)
+        return suggestionWords.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -279,7 +280,7 @@ extension SearchView: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchBarTextField.text = suggestionWords.value[indexPath.row].text
-        doWhenRun()
+        actWhenRun()
     }
 }
 
@@ -295,18 +296,6 @@ extension UIView {
 }
 
 extension BehaviorRelay where Element: RangeReplaceableCollection {
-    func insert(_ subElement: Element.Element, at index: Element.Index) {
-        var newValue = value
-        newValue.insert(subElement, at: index)
-        accept(newValue)
-    }
-    
-    func insert(contentsOf newSubelements: Element, at index: Element.Index) {
-        var newValue = value
-        newValue.insert(contentsOf: newSubelements, at: index)
-        accept(newValue)
-    }
-    
     func remove(at index: Element.Index) {
         var newValue = value
         newValue.remove(at: index)
@@ -322,6 +311,4 @@ class Util {
         return formatter.string(from: date)
     }
 }
-
-
 

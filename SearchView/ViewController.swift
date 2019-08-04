@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         //        let textFieldView = SearchTextFieldView.init(frame: CGRect(x: 50, y: 50, width: 250, height: 100))
         //        self.view.addSubview(textFieldView)
         
-        searchView.actWhenRun = {
+        searchView.customActWhenRun = {
             //input Your act when running
             print("doSomethingInViewController")
         }

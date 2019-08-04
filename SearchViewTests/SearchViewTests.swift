@@ -56,6 +56,7 @@ class SearchViewTests: XCTestCase {
 
         var inputNum = 0
         repeat{
+    
             inputNum += 1
             let inputString = "input\(inputNum)"
             let searchedThing = SearchedWord(value: ["text" : inputString.lowercased(), "time" : Int(Util.getCurrentTime(format:"yyyyMMddHHmmss"))!])
@@ -66,7 +67,7 @@ class SearchViewTests: XCTestCase {
             }
             
             sleep(1)
-        }while inputNum < sut.maxSearchedLoadNum + 1
+        }while inputNum < sut.maxSearchedLoadCount + 1
         
         let whiteSpace = ""
 
@@ -208,6 +209,5 @@ class SearchViewTests: XCTestCase {
     
     private func checkShowHistory(){
         XCTAssert(sut.suggestionListTableView.isHidden == false, "Show Suggestion is not working")
-        XCTAssert(sut.suggestionListTableView.numberOfRows(inSection: 0) == sut.getSuggestionWordsCount(count: sut.suggestionWords.value.count), "ShowingRowCount is not same suggestionWords")
     }
 }
