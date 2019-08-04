@@ -266,6 +266,7 @@ extension SearchView: UITableViewDelegate,UITableViewDataSource{
             .drive(onNext: { [weak self] in
                 self?.removeSearchedWord(cell.searchedWordLabel!.text!)
                 self?.suggestionWords.remove(at: indexPath.row)
+                self?.updateSuggestionWordsList(input: self?.searchBarTextField.text)
             }).disposed(by: cell.bag)
         
         //bold effect to equal string with textfield
