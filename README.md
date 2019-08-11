@@ -1,5 +1,5 @@
 # SearchView
-A text field that automatically completes and shows the items you have already retrieved
+A text field that automatically completes and shows the items you have already retrieved.
 
 
 <img alt="Demo" src="/resources/demo.GIF?raw=true" width="290">&nbsp;
@@ -28,8 +28,8 @@ SearchView is designed to perform the same behavior as **Google AutoComplete** e
 
 **Google AutoComplete** mechanism
 
-1. If nothing is entered in the text field and only the cursor is present, all searched items are shown in the latest order.
-2. Each time it is entered in a text field, it is shown by updating the search items in the latest order to match the typed text.
+1.  If nothing is entered in the text field and only the cursor is present, all searched items are shown in the latest order.
+2.  Each time it is entered in a text field, it is shown by updating the search items in the latest order to match the typed text.
 
 
 ## Requirements
