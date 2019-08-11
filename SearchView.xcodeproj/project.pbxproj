@@ -111,6 +111,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3E326368230007E600F02E51 /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				3E7C7DE722E2FFBF00D9321E /* SearchedTableviewCell.swift */,
+				3E7C7DE822E2FFBF00D9321E /* SearchedTableviewCell.xib */,
+				3EAF7D1E22E2F3E30060D96C /* SearchView.swift */,
+				3EAF7D1F22E2F3E40060D96C /* SearchView.xib */,
+			);
+			path = SearchView;
+			sourceTree = "<group>";
+		};
 		3E7EA55422E2EDA600B7CA73 = {
 			isa = PBXGroup;
 			children = (
@@ -136,14 +147,11 @@
 		3E7EA55F22E2EDA600B7CA73 /* SearchView */ = {
 			isa = PBXGroup;
 			children = (
+				3E326368230007E600F02E51 /* SearchView */,
 				3E7EA56022E2EDA600B7CA73 /* AppDelegate.swift */,
 				3E7EA56222E2EDA600B7CA73 /* ViewController.swift */,
 				3E7EA56422E2EDA600B7CA73 /* Main.storyboard */,
 				3E7EA56722E2EDA800B7CA73 /* Assets.xcassets */,
-				3E7C7DE722E2FFBF00D9321E /* SearchedTableviewCell.swift */,
-				3E7C7DE822E2FFBF00D9321E /* SearchedTableviewCell.xib */,
-				3EAF7D1E22E2F3E30060D96C /* SearchView.swift */,
-				3EAF7D1F22E2F3E40060D96C /* SearchView.xib */,
 				3E7EA56922E2EDA800B7CA73 /* LaunchScreen.storyboard */,
 				3E7EA56C22E2EDA800B7CA73 /* Info.plist */,
 			);
@@ -580,6 +588,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 59RQN6MZ5J;
 				INFOPLIST_FILE = SearchView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -599,6 +608,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 59RQN6MZ5J;
 				INFOPLIST_FILE = SearchView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

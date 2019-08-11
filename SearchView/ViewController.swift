@@ -26,12 +26,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //by frame init
-        //        let textFieldView = SearchTextFieldView.init(frame: CGRect(x: 50, y: 50, width: 250, height: 100))
-        //        self.view.addSubview(textFieldView)
+//        let searchView = SearchView.init(frame: "input your custom Frame")
+//        self.view.addSubview(searchView)
         
-        activityIndicator.center = self.view.center
-        self.view.addSubview(activityIndicator)
-      
         searchView.actWhenRun = {[weak self] in
             //input Your act when running
             self?.activityIndicator.startAnimating()
@@ -39,6 +36,9 @@ class ViewController: UIViewController {
                 self?.activityIndicator.stopAnimating()
             }
         }
+        
+        activityIndicator.center = self.view.center
+        self.view.addSubview(activityIndicator)
     }
 }
 
