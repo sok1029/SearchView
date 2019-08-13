@@ -26,7 +26,7 @@ self.view.addSubview(searchView)
 
 ```swift
 searchView.actWhenRun = {
-    // Input Your act when running
+    // Input your act when running
 }
 
 ```
