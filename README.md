@@ -22,6 +22,15 @@ self.view.addSubview(searchView)
 1. Make the UIView on the storyboard
 2. Set Custom class to 'SearchView'
 
+### Add Run Act 
+
+```swift
+searchView.actWhenRun = {
+    // Input Your act when running
+}
+
+```
+
 ## Mechanism
 
 SearchView is designed to perform the same behavior as **Google AutoComplete** except for the list of recommendations through networking with servers
