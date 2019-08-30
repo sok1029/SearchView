@@ -4,6 +4,32 @@ A text field that automatically completes and shows the items you have already r
 
 <img alt="Demo" src="/resources/demo.GIF?raw=true" width="290">&nbsp;
 
+## Set For Usage
+
+Before using SearchView, let's set the default settings for using Realm.
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    setDefaultRealmForUser(username: Bundle.main.bundleIdentifier!)
+    return true
+}
+
+func setDefaultRealmForUser(username: String) {
+    //for new property adde
+    var config = Realm.Configuration(
+    schemaVersion: 1,
+    migrationBlock: { migration, oldSchemaVersion in
+        if (oldSchemaVersion < 1) {
+        // Nothing to do!
+        }
+    })
+
+    config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(username).realm")
+    // Set this as the configuration used for the default Realm
+    Realm.Configuration.defaultConfiguration = config
+}
+
+```
 
 ## Usage
 

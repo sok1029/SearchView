@@ -50,8 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             migrationBlock: { migration, oldSchemaVersion in
                 if (oldSchemaVersion < 1) {
                     // Nothing to do!
-                    // Realm will automatically detect new properties and removed properties
-                    // And will update the schema on disk automatically
                 }
         })
         
@@ -59,7 +57,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set this as the configuration used for the default Realm
         Realm.Configuration.defaultConfiguration = config
     }
-    
-    
 }
 
